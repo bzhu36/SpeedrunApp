@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/SpeedrunApp.iml" filepath="$PROJECT_DIR$/SpeedrunApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SpeedrunApp.iml" filepath="$PROJECT_DIR$/.idea/SpeedrunApp.iml" />
+      <module fileurl="file://C:\Users\Ben Zhu\AndroidStudioProjects\SpeedrunApp\SpeedrunApp.iml" filepath="C:\Users\Ben Zhu\AndroidStudioProjects\SpeedrunApp\SpeedrunApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://C:\Users\Ben Zhu\AndroidStudioProjects\SpeedrunApp\app\app.iml" filepath="C:\Users\Ben Zhu\AndroidStudioProjects\SpeedrunApp\app\app.iml" />
     </modules>
   </component>
 </project>

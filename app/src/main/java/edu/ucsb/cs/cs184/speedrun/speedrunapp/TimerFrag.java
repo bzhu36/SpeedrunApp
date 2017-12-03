@@ -6,12 +6,20 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -31,7 +39,9 @@ public class TimerFrag extends Fragment {
     TextView timer;
     Context context;
     Handler customHandler = new Handler();
-    LinearLayout container;
+    RecyclerView recyclerView;
+    private TimerAdapter adapter;
+
     long startTime=0L,timeInMillis=0L,timeSwapBuff=0L, updateTime=0L;
     Runnable timerThread = new Runnable() {
         @Override
@@ -45,7 +55,7 @@ public class TimerFrag extends Fragment {
             secs%=60;
             int millis = (int) updateTime%1000;
             if(hours > 0)
-                timer.setText(""+mins+":"+String.format("%02d",secs)+":"+String.format("%03d",millis));
+                timer.setText(""+hours+":"+String.format("%02d",mins)+":"+String.format("%02d",secs)+":"+String.format("%03d",millis));
             else if(hours == 0)
                 timer.setText(""+mins+":"+String.format("%02d",secs)+":"+String.format("%03d",millis));
             customHandler.postDelayed(this,0);
@@ -72,6 +82,7 @@ public class TimerFrag extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -79,44 +90,79 @@ public class TimerFrag extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.timer, menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+    public static List<GameInfo> dummyData(){
+        List<GameInfo> data = new ArrayList<>();
+        int gameCover = (R.drawable.mario);
+        String gameTitle = "Super Mario Sunshine";
+        String worldRecord = "WR: 1:26:13 by WiseMuffin";
+        for (int i = 0; i < 25; i++) {
+            data.add(new GameInfo(gameCover,gameTitle,worldRecord));
+        }
+
+        return data;
+    }
+    @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view  =  inflater.inflate(R.layout.fragment_timer, container, false);
-        start = (Button) view.findViewById(R.id.start);
-        stop = (Button) view.findViewById(R.id.stop);
-        lap = (Button) view.findViewById(R.id.lap);
-
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startTime = SystemClock.uptimeMillis();
-
-                customHandler.postDelayed(timerThread,0);
-
-            }
-        });
-        stop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                timeSwapBuff += timeInMillis;
-
-                customHandler.removeCallbacks(timerThread);
-            }
-        });
-        lap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View addView = inflater.inflate(R.layout.row, null);
-                TextView value = (TextView) addView.findViewById(R.id.textContent);
-                value.setText(timer.getText());
-                container.addView(addView);
-            }
-        });
-        timer = (TextView) view.findViewById(R.id.display);
-
-        this.container = (LinearLayout) view.findViewById(R.id.container);
+        recyclerView = view.findViewById(R.id.recyclerView);
+        adapter = new TimerAdapter(getContext(), dummyData());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//        start = (Button) view.findViewById(R.id.start);
+//        stop = (Button) view.findViewById(R.id.stop);
+//        lap = (Button) view.findViewById(R.id.lap);
+//
+//        start.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startTime = SystemClock.uptimeMillis();
+//
+//                customHandler.postDelayed(timerThread,0);
+//
+//            }
+//        });
+//        stop.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                timeSwapBuff += timeInMillis;
+//
+//                customHandler.removeCallbacks(timerThread);
+//            }
+//        });
+//        lap.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//                View addView = inflater.inflate(R.layout.row, null);
+//                TextView value = (TextView) addView.findViewById(R.id.textContent);
+//                value.setText(timer.getText());
+//                container.addView(addView);
+//            }
+//        });
+//        timer = (TextView) view.findViewById(R.id.display);
+//
+//        this.container = (LinearLayout) view.findViewById(R.id.container);
         return view;
     }
 
