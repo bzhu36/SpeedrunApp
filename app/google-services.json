@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "760467976577",
+    "project_id": "firebase-speedrunner"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760467976577:android:765220b7fcdaa7f5",
+        "android_client_info": {
+          "package_name": "edu.ucsb.cs.cs184.speedrun.speedrunapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760467976577-menbpq7sok4ddp4r4nufl08a5tt7rf5r.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.ucsb.cs.cs184.speedrun.speedrunapp",
+            "certificate_hash": "26cecf6fa09564d08752fb78818cc211f98f23bc"
+          }
+        },
+        {
+          "client_id": "760467976577-ko4mji3h35v2gqt4ev7sjs42p6e6ge9t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBfWakZUpSGDIRdWBiGLHmatHTYVXLwqU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
