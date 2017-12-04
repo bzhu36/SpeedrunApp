@@ -5,7 +5,7 @@ android {
         config {
             keyAlias 'speedrunkey'
             keyPassword 'speedrun'
-            storeFile file('C:/Users/icema/.android/android.jks')
+            storeFile file('android.jks')
             storePassword 'speedrun'
         }
     }
