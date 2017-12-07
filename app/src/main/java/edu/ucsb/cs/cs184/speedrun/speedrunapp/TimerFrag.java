@@ -128,43 +128,10 @@ public class TimerFrag extends Fragment {
         View view  =  inflater.inflate(R.layout.fragment_timer, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
         adapter = new TimerAdapter(getContext(), dummyData());
+
         recyclerView.setAdapter(adapter);
         recyclerView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        start = (Button) view.findViewById(R.id.start);
-//        stop = (Button) view.findViewById(R.id.stop);
-//        lap = (Button) view.findViewById(R.id.lap);
-//
-//        start.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startTime = SystemClock.uptimeMillis();
-//
-//                customHandler.postDelayed(timerThread,0);
-//
-//            }
-//        });
-//        stop.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                timeSwapBuff += timeInMillis;
-//
-//                customHandler.removeCallbacks(timerThread);
-//            }
-//        });
-//        lap.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//                View addView = inflater.inflate(R.layout.row, null);
-//                TextView value = (TextView) addView.findViewById(R.id.textContent);
-//                value.setText(timer.getText());
-//                container.addView(addView);
-//            }
-//        });
-//        timer = (TextView) view.findViewById(R.id.display);
-//
-//        this.container = (LinearLayout) view.findViewById(R.id.container);
         return view;
     }
 
