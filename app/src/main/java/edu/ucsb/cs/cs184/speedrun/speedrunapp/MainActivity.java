@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
             fragment = new TimerFrag();
         } else if (id == R.id.nav_gallery) {
-
+            fragment = new LeaderboardFragment();
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
