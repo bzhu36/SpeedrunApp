@@ -115,8 +115,9 @@ public class TimerFrag extends Fragment {
         String gameTitle = "Super Mario Sunshine";
         String worldRecord = "WR: 1:26:13 by WiseMuffin";
         for (int i = 0; i < 25; i++) {
-            data.add(new GameInfo(gameCover,gameTitle,worldRecord));
+            data.add(new GameInfo(gameCover,gameTitle,worldRecord,GameInfo.GAME_TYPE));
         }
+            data.add(new GameInfo(0, null, null, GameInfo.ADD_TYPE));
 
         return data;
     }
@@ -128,6 +129,7 @@ public class TimerFrag extends Fragment {
         recyclerView = view.findViewById(R.id.recyclerView);
         adapter = new TimerAdapter(getContext(), dummyData());
         recyclerView.setAdapter(adapter);
+        recyclerView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 //        start = (Button) view.findViewById(R.id.start);
 //        stop = (Button) view.findViewById(R.id.stop);

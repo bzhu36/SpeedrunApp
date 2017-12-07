@@ -14,36 +14,59 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 
+import static edu.ucsb.cs.cs184.speedrun.speedrunapp.GameInfo.ADD_TYPE;
+import static edu.ucsb.cs.cs184.speedrun.speedrunapp.GameInfo.GAME_TYPE;
+
 /**
  * Created by Ben Zhu on 12/2/2017.
  */
 
-public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.myViewHolder> {
+public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
+//    private final View.OnClickListener mOnClickListener = new MyOnclickListener(){
+//        @Override
+//        public void onClick(View v){
+//
+//        }
+//    };
     private LayoutInflater inflater;
     List<GameInfo> gameInfos = Collections.emptyList();
 
-    public TimerAdapter(Context context, List<GameInfo> gameInfos){
+    public TimerAdapter(Context context, List<GameInfo> gameInfos) {
         inflater = LayoutInflater.from(context);
         this.gameInfos = gameInfos;
 
     }
 
     @Override
-    public myViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.row, parent, false);
-        myViewHolder holder = new myViewHolder(view);
-
-        return holder;
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view;
+        switch (viewType) {
+            case GAME_TYPE:
+                view = inflater.inflate(R.layout.row, parent, false);
+                //view.setOnClickListener(mOnClickListener);
+                return new gameHolder(view);
+            case ADD_TYPE:
+                view = inflater.inflate(R.layout.add_row, parent, false);
+                return new addHolder(view);
+        }
+        return null;
 
     }
 
     @Override
-    public void onBindViewHolder(myViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         GameInfo current = gameInfos.get(position);
-        holder.gameCover.setImageResource(current.iconId);
-        holder.gameTitle.setText(current.gameTitle);
-        holder.worldRecord.setText(current.worldRecord);
+        switch (getItemViewType(position)){
+            case GAME_TYPE:
+                ((gameHolder) holder).gameCover.setImageResource(current.iconId);
+                ((gameHolder) holder).gameTitle.setText(current.gameTitle);
+                ((gameHolder) holder).worldRecord.setText(current.worldRecord);
+                break;
+            case ADD_TYPE:
+                break;
+        }
+
 
     }
 
@@ -52,18 +75,42 @@ public class TimerAdapter extends RecyclerView.Adapter<TimerAdapter.myViewHolder
         return gameInfos.size();
     }
 
-    class myViewHolder extends RecyclerView.ViewHolder{
+    @Override
+    public int getItemViewType(int position) {
+        return gameInfos.get(position).type;
+    }
+
+    class gameHolder extends RecyclerView.ViewHolder {
         ImageView gameCover;
         TextView gameTitle;
         TextView worldRecord;
 
-        public myViewHolder(View itemView) {
+        public gameHolder(View itemView) {
             super(itemView);
             gameCover = itemView.findViewById(R.id.gameCover);
             gameTitle = itemView.findViewById(R.id.gameTitle);
             worldRecord = itemView.findViewById(R.id.worldRecord);
+            }
+
+        }
+
+    class addHolder extends RecyclerView.ViewHolder {
+        public addHolder(View itemView) {
+            super(itemView);
         }
     }
+
+//    class MyOnClickListener implements View.OnClickListener{
+//
+//        public MyOnClickListener(){
+//
+//        }
+//
+//        @Override
+//        public void onClick(View v) {
+//
+//        }
+//    }
 }
 
 

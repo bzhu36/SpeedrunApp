@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+    <View
+        android:layout_marginLeft="48dp"
+        android:layout_marginRight="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/white" />
 
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
@@ -19,6 +26,9 @@
         android:layout_gravity="center"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
+
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:cropToPadding="false"
         android:src="@drawable/sunshine"
         android:visibility="visible"
@@ -28,21 +38,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/gameTitle"
-        android:text="Super Mario Sunshine"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:text="Super Mario Sunshine on Nintendo Game Cube"
         android:textColor="@color/textColor"
         android:textSize="24dp"
-        app:layout_constraintLeft_toRightOf="@id/gameCover"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        android:typeface="monospace"
         app:layout_constraintBottom_toTopOf="@id/worldRecord"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/gameCover"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/worldRecord"
         android:text="WR: 1:26:27 by WiseMuffin"
         android:textSize="14dp"
+        android:typeface="monospace"
         android:textColor="@color/textColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,10 +67,4 @@
 
 </android.support.constraint.ConstraintLayout>
 
-<View
-android:layout_marginLeft="48dp"
-android:layout_marginRight="48dp"
-android:layout_width="match_parent"
-android:layout_height="1dp"
-android:background="@color/white" />
 </LinearLayout>
