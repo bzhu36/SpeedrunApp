@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
@@ -11,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,9 +26,9 @@ import static edu.ucsb.cs.cs184.speedrun.speedrunapp.GameInfo.GAME_TYPE;
  */
 
 public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+    List<GameInfo> gameInfos = Collections.emptyList();
     private Context context;
     private LayoutInflater inflater;
-    List<GameInfo> gameInfos = Collections.emptyList();
 
     public TimerAdapter(Context context, List<GameInfo> gameInfos) {
         this.context = context;
@@ -117,14 +120,15 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         @Override
         public void onClick(View v){
             FragmentManager manager = ((Activity) context).getFragmentManager();
-            SplitFrag popupFrag = new SplitFrag();
+            SplitFrag splitFrag = new SplitFrag();
 //            Bundle args = new Bundle();
 //            args.putString("Uri",uri);
 //            args.putInt("Rating", rating);
 //            popupFrag.setArguments(args);
 
-            popupFrag.show(manager,"SplitFrag");
-
+            Fragment fragment = new SplitFrag();
+            FragmentTransaction ft = ((Activity) context).getFragmentManager().beginTransaction();
+            ft.replace(R.id.content_main, fragment).commit();
             }
     }
 
@@ -143,7 +147,7 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 //            args.putInt("Rating", rating);
 //            popupFrag.setArguments(args);
 
-            popupFrag.show(manager,"popupfrag");
+            popupFrag.show(manager,"SplitFrag");
         }
     }
 }

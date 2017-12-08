@@ -19,7 +19,7 @@ import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.GameList;
 import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.Leaderboard;
 
 
-public class LeaderboardFragment extends android.support.v4.app.Fragment {
+public class LeaderboardFragment extends Fragment {
     Handler customHandler = new Handler();
     EditText editText;
     Button button;

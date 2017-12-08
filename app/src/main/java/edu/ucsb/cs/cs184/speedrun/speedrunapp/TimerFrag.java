@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -40,8 +40,6 @@ public class TimerFrag extends Fragment {
     Context context;
     Handler customHandler = new Handler();
     RecyclerView recyclerView;
-    private TimerAdapter adapter;
-
     long startTime=0L,timeInMillis=0L,timeSwapBuff=0L, updateTime=0L;
     Runnable timerThread = new Runnable() {
         @Override
@@ -61,6 +59,7 @@ public class TimerFrag extends Fragment {
             customHandler.postDelayed(this,0);
         }
     };
+    private TimerAdapter adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -79,6 +78,19 @@ public class TimerFrag extends Fragment {
         return fragment;
     }
 
+    public static List<GameInfo> dummyData(){
+        List<GameInfo> data = new ArrayList<>();
+        int gameCover = (R.drawable.mario);
+        String gameTitle = "Super Mario Sunshine";
+        String worldRecord = "WR: 1:26:13 by WiseMuffin";
+        for (int i = 0; i < 25; i++) {
+            data.add(new GameInfo(gameCover,gameTitle,worldRecord,GameInfo.GAME_TYPE));
+        }
+            data.add(new GameInfo(0, null, null, GameInfo.ADD_TYPE));
+
+        return data;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +106,7 @@ public class TimerFrag extends Fragment {
         // Inflate the menu; this adds items to the action bar if it is present.
         inflater.inflate(R.menu.timer, menu);
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -109,18 +122,7 @@ public class TimerFrag extends Fragment {
 
         return super.onOptionsItemSelected(item);
     }
-    public static List<GameInfo> dummyData(){
-        List<GameInfo> data = new ArrayList<>();
-        int gameCover = (R.drawable.mario);
-        String gameTitle = "Super Mario Sunshine";
-        String worldRecord = "WR: 1:26:13 by WiseMuffin";
-        for (int i = 0; i < 25; i++) {
-            data.add(new GameInfo(gameCover,gameTitle,worldRecord,GameInfo.GAME_TYPE));
-        }
-            data.add(new GameInfo(0, null, null, GameInfo.ADD_TYPE));
 
-        return data;
-    }
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {

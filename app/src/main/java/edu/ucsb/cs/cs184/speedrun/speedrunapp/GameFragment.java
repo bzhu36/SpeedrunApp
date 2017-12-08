@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.speedrun.speedrunapp;
 
+import android.app.Fragment;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -33,7 +34,7 @@ import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.Leaderboard;
 import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.run.PlacedRun;
 
 //Fragment represents a single game with it's name, cover, and leaderboards
-public class GameFragment extends android.support.v4.app.Fragment {
+public class GameFragment extends Fragment {
     static Game game;
     Handler customHandler = new Handler();
     TextView gameTitle;

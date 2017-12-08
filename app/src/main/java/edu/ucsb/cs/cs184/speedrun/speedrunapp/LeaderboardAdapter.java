@@ -3,8 +3,8 @@ package edu.ucsb.cs.cs184.speedrun.speedrunapp;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -31,9 +31,9 @@ import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.Leaderboard;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.gameViewHolder> {
 
-    private LayoutInflater inflater;
     Game games[];
     Context context;
+    private LayoutInflater inflater;
 
     public LeaderboardAdapter(Context context, GameList gameLists){
         inflater = LayoutInflater.from(context);
@@ -67,7 +67,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
             @Override
             public void onClick(View view) {
                 MainActivity mainActivity=(MainActivity)context;
-                FragmentTransaction ft = mainActivity.getSupportFragmentManager().beginTransaction();
+                FragmentTransaction ft = mainActivity.getFragmentManager().beginTransaction();
                 ft.replace(R.id.content_main, GameFragment.newInstance(games[position])).commit();
             }
         });
