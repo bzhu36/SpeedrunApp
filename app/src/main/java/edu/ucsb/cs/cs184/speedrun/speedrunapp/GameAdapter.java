@@ -26,10 +26,17 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.gameLeaderboar
     private LayoutInflater inflater;
     PlacedRun runs[];
     Context context;
+    int runSize;
 
     public GameAdapter(Context context, Leaderboard leaderboard){
         inflater = LayoutInflater.from(context);
-        runs = leaderboard.getRuns();
+        if(leaderboard!=null) {
+            runs = leaderboard.getRuns();
+            runSize = Array.getLength(runs);
+        }
+        else{
+            runSize=0;
+        }
         this.context = context;
 
     }
@@ -69,7 +76,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.gameLeaderboar
 
     @Override
     public int getItemCount() {
-        return Array.getLength(runs);
+        return runSize;
     }
 
     //Parse the completion time of the run. The format is originally like this:
