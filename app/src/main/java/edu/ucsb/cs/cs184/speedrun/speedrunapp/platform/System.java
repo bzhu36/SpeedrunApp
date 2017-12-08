@@ -10,4 +10,7 @@ public class System {
     private boolean emulated;
     private String region;
 
+    public String getPlatform() {
+        return platform;
+    }
 }

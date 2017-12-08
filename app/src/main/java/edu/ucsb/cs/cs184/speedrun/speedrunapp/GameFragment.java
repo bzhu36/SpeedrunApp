@@ -38,6 +38,7 @@ public class GameFragment extends Fragment {
     static Game game;
     Handler customHandler = new Handler();
     TextView gameTitle;
+    TextView releaseDate;
     ImageView gameCover;
     RecyclerView recyclerView;
     Spinner categorySpinner;
@@ -60,6 +61,7 @@ public class GameFragment extends Fragment {
         //Initialize the different parts
         gameTitle = (TextView)view.findViewById(R.id.gameTitle2);
         gameCover = (ImageView) view.findViewById(R.id.gameCover2);
+        releaseDate = (TextView)view.findViewById(R.id.dateView);
         categorySpinner = (Spinner)view.findViewById(R.id.categorySpinner);
         recyclerView = view.findViewById(R.id.gameRecycler);
         gameTitle.setText(game.getNames().get("international"));
@@ -72,6 +74,7 @@ public class GameFragment extends Fragment {
         catch (Exception e){
 
         }
+        releaseDate.setText(releaseDate(game.getReleaseDate()));
 
         //Get the categories from the game
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -122,6 +125,57 @@ public class GameFragment extends Fragment {
 
 
         return view;
+
+    }
+
+    public String releaseDate(String dateString){
+        String year=dateString.substring(0, 4);
+        String date=dateString.substring(8, 10);
+        String month="";
+
+        switch (dateString.substring(5,7)){
+            case "01":
+                month="January";
+                break;
+            case "02":
+                month="February";
+                break;
+            case "03":
+                month="March";
+                break;
+            case "04":
+                month="April";
+                break;
+            case "05":
+                month="May";
+                break;
+            case "06":
+                month="June";
+                break;
+            case "07":
+                month="July";
+                break;
+            case "08":
+                month="August";
+                break;
+            case "09":
+                month="September";
+                break;
+            case "10":
+                month="October";
+                break;
+            case "11":
+                month="November";
+                break;
+            case "12":
+                month="December";
+                break;
+
+        }
+        if(date.charAt(0)==0){
+            date=dateString.substring(9,10);
+        }
+        return month+" "+date+", "+year;
 
     }
 

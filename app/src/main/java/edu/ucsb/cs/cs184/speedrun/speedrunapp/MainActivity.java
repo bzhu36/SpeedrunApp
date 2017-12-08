@@ -36,12 +36,20 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        if(getFragmentManager().getBackStackEntryCount() == 0) {
+            super.onBackPressed();
+        }
+        else {
+            getFragmentManager().popBackStack();
+        }
+        /*
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
+        */
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -73,4 +81,6 @@ public class MainActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
 }

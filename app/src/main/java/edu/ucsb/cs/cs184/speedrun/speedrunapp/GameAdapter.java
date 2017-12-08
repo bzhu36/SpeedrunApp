@@ -1,7 +1,10 @@
 package edu.ucsb.cs.cs184.speedrun.speedrunapp;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
@@ -17,6 +20,9 @@ import java.lang.reflect.Array;
 import java.net.URL;
 import java.util.ArrayList;
 
+import edu.ucsb.cs.cs184.speedrun.speedrunapp.data.Link;
+import edu.ucsb.cs.cs184.speedrun.speedrunapp.data.Resource;
+import edu.ucsb.cs.cs184.speedrun.speedrunapp.data.Videos;
 import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.Leaderboard;
 import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.run.PlacedRun;
 
@@ -72,6 +78,27 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.gameLeaderboar
         //Parses the time into a readable format
         String timeString=parseTime(runs[position].getRun().getTimes().getPrimary());
         holder.time.setText(timeString);
+
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(runs[position].getRun().getVideos()!=null){
+                    if(runs[position].getRun().getVideos().getLinks()!=null) {
+                        String link = runs[position].getRun().getVideos().getLinks()[0].getUri();
+                        if(link.substring(4,11).equals("youtube")){
+                            link = link.substring(32);
+                            watchYoutubeVideo(link);
+                        }
+                        else{
+                            watchWebVideo(link);
+                        }
+                    }
+                }
+                else{
+                   Toast.makeText(context, "eoj", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     @Override
@@ -79,6 +106,20 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.gameLeaderboar
         return runSize;
     }
 
+    public void watchYoutubeVideo(String id) {
+        Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + id));
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://www.youtube.com/watch?v=" + id));
+        try {
+            context.startActivity(appIntent);
+        } catch (ActivityNotFoundException ex) {
+            context.startActivity(webIntent);
+        }
+    }
+
+    public void watchWebVideo(String id) {
+        Intent webIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(id));
+        context.startActivity(webIntent);
+    }
     //Parse the completion time of the run. The format is originally like this:
     //PT5H50M12S, which is 5h 50m 12s
     public String parseTime(String timeString){
@@ -103,6 +144,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.gameLeaderboar
         return finalString;
 
     }
+
 
     public void determineColor(gameLeaderboardViewHolder holder, int position){
         switch (position){

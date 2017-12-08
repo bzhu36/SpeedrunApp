@@ -14,12 +14,13 @@
         android:layout_width="116dp"
         android:layout_height="144dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="4dp"
         android:layout_marginTop="8dp"
         android:src="@drawable/mario"
-        app:layout_constraintBottom_toTopOf="@+id/categorySpinner"
+        app:layout_constraintBottom_toTopOf="@+id/gameRecycler"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/gameTitle2"
@@ -41,10 +42,11 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="4dp"
         android:layout_marginStart="4dp"
+        android:layout_marginTop="19dp"
         android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="171dp" />
+        app:layout_constraintTop_toBottomOf="@+id/gameCover2" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/gameRecycler"
@@ -60,4 +62,37 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/categorySpinner"></android.support.v7.widget.RecyclerView>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Release Date:"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/gameRecycler"
+        app:layout_constraintStart_toEndOf="@+id/gameCover2"
+        app:layout_constraintTop_toBottomOf="@+id/gameTitle2"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/dateView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="2dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="8dp"
+        android:text="TextView"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toTopOf="@+id/categorySpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/gameTitle2"
+        app:layout_constraintVertical_bias="0.0" />
 </android.support.constraint.ConstraintLayout>

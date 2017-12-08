@@ -31,9 +31,9 @@ import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.Leaderboard;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.gameViewHolder> {
 
+    private LayoutInflater inflater;
     Game games[];
     Context context;
-    private LayoutInflater inflater;
 
     public LeaderboardAdapter(Context context, GameList gameLists){
         inflater = LayoutInflater.from(context);
@@ -68,7 +68,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
             public void onClick(View view) {
                 MainActivity mainActivity=(MainActivity)context;
                 FragmentTransaction ft = mainActivity.getFragmentManager().beginTransaction();
-                ft.replace(R.id.content_main, GameFragment.newInstance(games[position])).commit();
+                ft.replace(R.id.content_main, GameFragment.newInstance(games[position])).addToBackStack(null).commit();
             }
         });
 
