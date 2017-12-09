@@ -82,6 +82,8 @@ public class Run {
         return Category.fromID(category);
     }
 
+    public String getGameNames(){ return game;}
+
     private Link[] links;
 
 }

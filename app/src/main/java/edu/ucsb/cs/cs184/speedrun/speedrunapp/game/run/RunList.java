@@ -18,9 +18,20 @@ public class RunList {
 
     private Run[] data;
 
-    public static RunList forStatus(Category cat, String status) throws IOException {
+//    public static RunList forStatus(Category cat, String status) throws IOException {
+//        Gson g = new Gson();
+//        URL u = new URL(Speedrun.API_ROOT + "runs?category=" + cat.getId() + "&status=" + status);
+//        HttpURLConnection c = (HttpURLConnection) u.openConnection();
+//        c.addRequestProperty("User-Agent", Speedrun.USER_AGENT);
+//        InputStreamReader r = new InputStreamReader(c.getInputStream());
+//        RunList l = g.fromJson(r, RunList.class);
+//        r.close();
+//        return l;
+//    }
+
+    public static RunList forStatus(String status) throws IOException {
         Gson g = new Gson();
-        URL u = new URL(Speedrun.API_ROOT + "runs?category=" + cat.getId() + "&status=" + status);
+        URL u = new URL(Speedrun.API_ROOT + "runs?status=" + status);
         HttpURLConnection c = (HttpURLConnection) u.openConnection();
         c.addRequestProperty("User-Agent", Speedrun.USER_AGENT);
         InputStreamReader r = new InputStreamReader(c.getInputStream());

@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        fragment = new HomepageFragment();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.content_main, fragment).commit();
     }
 
     @Override
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity
             // Handle the camera action
             fragment = new TimerFrag();
         } else if (id == R.id.nav_gallery) {
+            //fragment = new HomepageFragment();
             fragment = new LeaderboardFragment();
         } else if (id == R.id.nav_slideshow) {
 
