@@ -40,26 +40,32 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 gameName = editText.getText().toString();
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                GameList gameList=null;
-                try {
-                    gameList = GameList.withName(gameName);
-                } catch (Exception e) {
-                    System.out.println("catch");
-                    e.printStackTrace();
-                }
+                GameRetriever.getGameList(gameName, new GameRetriever.GameListResultListener() {
+                    @Override
+                    public void onGameList(GameList gameList) {
+                        adapter = new LeaderboardAdapter(getContext(), gameList);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        adapter.notifyDataSetChanged();
 
-                adapter = new LeaderboardAdapter(getContext(), gameList);
-                recyclerView.setAdapter(adapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                adapter.notifyDataSetChanged();
-
+                    }
+                });
                 //Hides the keyboard when search button is pressed.
                 InputMethodManager imm = (InputMethodManager)view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
+//                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//                StrictMode.setThreadPolicy(policy);
+//                GameList gameList=null;
+//                try {
+//                    gameList = GameList.withName(gameName);
+//                } catch (Exception e) {
+//                    System.out.println("catch");
+//                    e.printStackTrace();
+//                }
+
+
             }
         });
 

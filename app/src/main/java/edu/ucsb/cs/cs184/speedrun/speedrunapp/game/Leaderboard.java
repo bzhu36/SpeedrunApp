@@ -35,7 +35,7 @@ public class Leaderboard {
 
     public static Leaderboard forCategory(Category c) throws IOException {
         Gson g = new Gson();
-        URL u = new URL(Speedrun.API_ROOT + "leaderboards/" + c.getGame().getId() + "/category/" + c.getId());
+        URL u = new URL(Speedrun.API_ROOT + "leaderboards/" + c.getGame().getId() + "/category/" + c.getId()+"?top=24");
         HttpURLConnection conn = (HttpURLConnection) u.openConnection();
         conn.setRequestProperty("User-Agent", Speedrun.USER_AGENT);
         InputStreamReader r = new InputStreamReader(conn.getInputStream());

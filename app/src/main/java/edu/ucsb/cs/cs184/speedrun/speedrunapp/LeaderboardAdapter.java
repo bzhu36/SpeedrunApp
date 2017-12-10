@@ -1,10 +1,12 @@
 package edu.ucsb.cs.cs184.speedrun.speedrunapp;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.os.StrictMode;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
@@ -54,24 +58,22 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public void onBindViewHolder(gameViewHolder holder, int position) {
         holder.gameTitle.setText(games[position].getNames().get("international"));
-        try {
-            URL myUrl = new URL(games[position].getAssets().getCoverMedium().getUri());
-            InputStream inputStream = (InputStream) myUrl.getContent();
-            Drawable drawable = Drawable.createFromStream(inputStream, null);
-            holder.gameCover.setImageDrawable(drawable);
-        }
-        catch (Exception e){
-
-        }
+        Picasso.with(context).load(games[position].getAssets().getCoverMedium().getUri()).into(holder.gameCover);
         holder.gameTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Drawable drawable2 = holder.gameCover.getDrawable();
                 MainActivity mainActivity=(MainActivity)context;
                 FragmentTransaction ft = mainActivity.getFragmentManager().beginTransaction();
-                ft.replace(R.id.content_main, GameFragment.newInstance(games[position])).addToBackStack(null).commit();
+                ft.replace(R.id.content_main, GameFragment.newInstance(games[position], drawable2)).addToBackStack(null).commit();
             }
         });
 
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     @Override

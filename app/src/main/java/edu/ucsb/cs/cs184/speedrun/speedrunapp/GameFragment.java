@@ -32,8 +32,10 @@ import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.Game;
 import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.GameList;
 import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.Leaderboard;
 import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.run.PlacedRun;
+import edu.ucsb.cs.cs184.speedrun.speedrunapp.game.run.Player;
 
 //Fragment represents a single game with it's name, cover, and leaderboards
+
 public class GameFragment extends Fragment {
     static Game game;
     Handler customHandler = new Handler();
@@ -42,13 +44,15 @@ public class GameFragment extends Fragment {
     ImageView gameCover;
     RecyclerView recyclerView;
     Spinner categorySpinner;
+    static Drawable drawable;
     private GameAdapter gameAdapter;
 
-    public static GameFragment newInstance(Game game1) {
+    public static GameFragment newInstance(Game game1, Drawable drawable1) {
         GameFragment fragment = new GameFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         game = game1;
+        drawable=drawable1;
         return fragment;
     }
 
@@ -65,15 +69,7 @@ public class GameFragment extends Fragment {
         categorySpinner = (Spinner)view.findViewById(R.id.categorySpinner);
         recyclerView = view.findViewById(R.id.gameRecycler);
         gameTitle.setText(game.getNames().get("international"));
-        try {
-            URL myUrl = new URL(game.getAssets().getCoverMedium().getUri());
-            InputStream inputStream = (InputStream) myUrl.getContent();
-            Drawable drawable = Drawable.createFromStream(inputStream, null);
-            gameCover.setImageDrawable(drawable);
-        }
-        catch (Exception e){
-
-        }
+        gameCover.setImageDrawable(drawable);
         releaseDate.setText(releaseDate(game.getReleaseDate()));
 
         //Get the categories from the game
@@ -99,21 +95,28 @@ public class GameFragment extends Fragment {
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-                StrictMode.setThreadPolicy(policy);
-                Leaderboard leaderboard=null;
+                GameRetriever.getRun(categories, i, new GameRetriever.RunResultListener() {
+                    @Override
+                    public void onRun(LeaderboardPlayers leaderboard) {
+                        gameAdapter = new GameAdapter(getContext(), leaderboard);
+                        recyclerView.setAdapter(gameAdapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        adapter.notifyDataSetChanged();
+                    }
+                });
 
-                try {
-                    leaderboard = Leaderboard.forCategory(categories[i]);
+//                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//                StrictMode.setThreadPolicy(policy);
+//                Leaderboard leaderboard=null;
+//
+//                try {
+//                    leaderboard = Leaderboard.forCategory(categories[i]);
+//
+//                } catch (Exception e) {
+//                    System.out.println("catch");
+//                    e.printStackTrace();
+//                }
 
-                } catch (Exception e) {
-                    System.out.println("catch");
-                    e.printStackTrace();
-                }
-                gameAdapter = new GameAdapter(getContext(), leaderboard);
-                recyclerView.setAdapter(gameAdapter);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                adapter.notifyDataSetChanged();
             }
 
             @Override

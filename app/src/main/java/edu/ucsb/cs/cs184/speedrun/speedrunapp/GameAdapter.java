@@ -31,17 +31,23 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.gameLeaderboar
 
     private LayoutInflater inflater;
     PlacedRun runs[];
+    ArrayList<String>usernames;
     Context context;
     int runSize;
 
-    public GameAdapter(Context context, Leaderboard leaderboard){
+    public GameAdapter(Context context, LeaderboardPlayers leaderboard){
         inflater = LayoutInflater.from(context);
         if(leaderboard!=null) {
-            runs = leaderboard.getRuns();
-            runSize = Array.getLength(runs);
+            if (leaderboard.getLeaderboard() != null) {
+                runs = leaderboard.getLeaderboard().getRuns();
+                runSize = Array.getLength(runs);
+                usernames = leaderboard.getPlayers();
+            } else {
+                runSize = 0;
+            }
         }
-        else{
-            runSize=0;
+        else {
+            runSize = 0;
         }
         this.context = context;
 
@@ -63,17 +69,16 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.gameLeaderboar
 
 
         holder.place.setText((position+1)+ ".");
-        String s="";
-        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-        StrictMode.setThreadPolicy(policy);
-        try {
-            s=runs[position].getRun().getPlayers()[0].getName();
-
-        } catch (Exception e) {
-            System.out.println("catch");
-            e.printStackTrace();
-        }
-        holder.username.setText(s);
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+//        try {
+//            s=runs[position].getRun().getPlayers()[0].getName();
+//
+//        } catch (Exception e) {
+//            System.out.println("catch");
+//            e.printStackTrace();
+//        }
+        holder.username.setText(usernames.get(position));
 
         //Parses the time into a readable format
         String timeString=parseTime(runs[position].getRun().getTimes().getPrimary());
@@ -95,7 +100,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.gameLeaderboar
                     }
                 }
                 else{
-                   Toast.makeText(context, "eoj", Toast.LENGTH_LONG).show();
+                   Toast.makeText(context, "No video available", Toast.LENGTH_LONG).show();
                 }
             }
         });
