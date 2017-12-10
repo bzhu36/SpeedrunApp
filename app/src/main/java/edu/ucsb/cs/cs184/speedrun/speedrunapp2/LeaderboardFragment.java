@@ -51,17 +51,6 @@ public class LeaderboardFragment extends Fragment {
                 if (imm != null) {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-//                StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//                StrictMode.setThreadPolicy(policy);
-//                GameList gameList=null;
-//                try {
-//                    gameList = GameList.withName(gameName);
-//                } catch (Exception e) {
-//                    System.out.println("catch");
-//                    e.printStackTrace();
-//                }
-
-
             }
         });
 

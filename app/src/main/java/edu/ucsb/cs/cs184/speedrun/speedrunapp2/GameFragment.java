@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,12 +27,13 @@ import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.Game;
 
 public class GameFragment extends Fragment {
     static Game game;
-    Handler customHandler = new Handler();
-    TextView gameTitle;
-    TextView releaseDate;
-    ImageView gameCover;
-    RecyclerView recyclerView;
-    Spinner categorySpinner;
+    private Handler customHandler = new Handler();
+    private TextView gameTitle;
+    private TextView releaseDate;
+    private ImageView gameCover;
+    private RecyclerView recyclerView;
+    private Spinner categorySpinner;
+    private ProgressBar progressBar;
     static Drawable drawable;
     private GameAdapter gameAdapter;
 
@@ -79,11 +81,12 @@ public class GameFragment extends Fragment {
         }
         categorySpinner.setAdapter(adapter);
 
+        progressBar = view.findViewById(R.id.progressBar3);
         //Sets up a listener for when an item in the spinner is selected
         categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                GameRetriever.getRun(categories, i, new GameRetriever.RunResultListener() {
+                GameRetriever.getRun(categories, i, progressBar, recyclerView, new GameRetriever.RunResultListener() {
                     @Override
                     public void onRun(LeaderboardPlayers leaderboard) {
                         gameAdapter = new GameAdapter(getContext(), leaderboard);

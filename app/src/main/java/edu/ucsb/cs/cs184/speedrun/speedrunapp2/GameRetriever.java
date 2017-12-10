@@ -1,6 +1,11 @@
 package edu.ucsb.cs.cs184.speedrun.speedrunapp2;
 
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -18,12 +23,12 @@ public class GameRetriever {
         RetrieveGameListTask retrieveGameListTask = new RetrieveGameListTask(gameName, listener);
         retrieveGameListTask.execute();
     }
-    public static void getRun(Category[]categories, int position, final RunResultListener listener) {
-        RetrieveRunsTask retrieveRunTask = new RetrieveRunsTask(categories, position, listener);
+    public static void getRun(Category[]categories, int position, ProgressBar progressBar, RecyclerView recyclerView, final RunResultListener listener) {
+        RetrieveRunsTask retrieveRunTask = new RetrieveRunsTask(categories, position, progressBar, recyclerView, listener);
         retrieveRunTask.execute();
     }
-    public static void getHome(final HomeListResultListener listener) {
-        RetrieveHomeListTask retrieveHomeListTask = new RetrieveHomeListTask(listener);
+    public static void getHome(ProgressBar progressBar, final HomeListResultListener listener) {
+        RetrieveHomeListTask retrieveHomeListTask = new RetrieveHomeListTask(progressBar, listener);
         retrieveHomeListTask.execute();
     }
 
@@ -71,12 +76,23 @@ public class GameRetriever {
         private RunResultListener listener;
         private Category[]categories;
         private int position;
+        private ProgressBar progressBar;
+        private RecyclerView recyclerView;
 
-        public RetrieveRunsTask(Category[] categories, int position, RunResultListener listener) {
+        public RetrieveRunsTask(Category[] categories, int position, ProgressBar progressBar, RecyclerView recyclerView, RunResultListener listener) {
             super();
+            this.recyclerView = recyclerView;
             this.listener = listener;
             this.categories = categories;
             this.position = position;
+            this.progressBar = progressBar;
+        }
+
+        @Override
+        protected void onPreExecute()
+        {
+            recyclerView.setVisibility(View.INVISIBLE);
+            progressBar.setVisibility(View.VISIBLE);
         }
 
         @Override
@@ -85,7 +101,6 @@ public class GameRetriever {
             try {
                 leaderboardPlayers.setLeaderboard(Leaderboard.forCategory(categories[position]));
                 PlacedRun[] runs=leaderboardPlayers.getLeaderboard().getRuns();
-                PlacedRun runs2[]=new PlacedRun[20];
                 ArrayList<String> usernames=new ArrayList<>();
                 for (int i = 0; i < runs.length; i++) {
                     usernames.add(i, runs[i].getRun().getPlayers()[0].getName());
@@ -101,6 +116,8 @@ public class GameRetriever {
 
         @Override
         protected void onPostExecute(LeaderboardPlayers leaderboard) {
+            recyclerView.setVisibility(View.VISIBLE);
+            progressBar.setVisibility(View.INVISIBLE);
             if (listener != null) {
                 listener.onRun(leaderboard);
             }
@@ -109,12 +126,21 @@ public class GameRetriever {
 
     private static class RetrieveHomeListTask extends AsyncTask<Void, Void, RunListGames> {
         private HomeListResultListener listener;
+        private ProgressBar progressBar;
         //private ProgressDialog dialog = new ProgressDialog(MainActivity.this);
 
-        public RetrieveHomeListTask(HomeListResultListener listener) {
+        public RetrieveHomeListTask(ProgressBar progressBar, HomeListResultListener listener) {
             super();
             this.listener = listener;
+            this.progressBar = progressBar;
         }
+
+        @Override
+        protected void onPreExecute()
+        {
+            progressBar.setVisibility(View.VISIBLE);
+
+        };
 
         @Override
         protected RunListGames doInBackground(Void... params) {
@@ -137,6 +163,7 @@ public class GameRetriever {
 
         @Override
         protected void onPostExecute(RunListGames runList) {
+            progressBar.setVisibility(View.INVISIBLE);
             if (listener != null) {
                 listener.onHome(runList);
             }
