@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:backgroundTint="@color/background"
-    tools:context="edu.ucsb.cs.cs184.speedrun.speedrunapp.GameFragment">
+    tools:context="edu.ucsb.cs.cs184.speedrun.speedrunapp2.GameFragment">
 
     <!-- TODO: Update blank fragment layout -->
 

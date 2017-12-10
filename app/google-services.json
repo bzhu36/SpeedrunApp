@@ -1,33 +1,35 @@
 {
   "project_info": {
-    "project_number": "760467976577",
-    "project_id": "firebase-speedrunner"
+    "project_number": "103099140352",
+    "firebase_url": "https://speedrun2-b84c7.firebaseio.com",
+    "project_id": "speedrun2-b84c7",
+    "storage_bucket": "speedrun2-b84c7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:760467976577:android:765220b7fcdaa7f5",
+        "mobilesdk_app_id": "1:103099140352:android:ef49e195633a1cb9",
         "android_client_info": {
-          "package_name": "edu.ucsb.cs.cs184.speedrun.speedrunapp"
+          "package_name": "edu.ucsb.cs.cs184.speedrun.speedrunapp2"
         }
       },
       "oauth_client": [
         {
-          "client_id": "760467976577-menbpq7sok4ddp4r4nufl08a5tt7rf5r.apps.googleusercontent.com",
+          "client_id": "103099140352-4q7s11urusfme6k76bnab9jcldn0amhk.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "edu.ucsb.cs.cs184.speedrun.speedrunapp",
+            "package_name": "edu.ucsb.cs.cs184.speedrun.speedrunapp2",
             "certificate_hash": "26cecf6fa09564d08752fb78818cc211f98f23bc"
           }
         },
         {
-          "client_id": "760467976577-ko4mji3h35v2gqt4ev7sjs42p6e6ge9t.apps.googleusercontent.com",
+          "client_id": "103099140352-se5ivcskftfg1284a4g647a6b4pbfl7j.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDBfWakZUpSGDIRdWBiGLHmatHTYVXLwqU"
+          "current_key": "AIzaSyBPC0isQGEEKjiLxEUHodlMEZ8FSDa6DxA"
         }
       ],
       "services": {
@@ -35,11 +37,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "103099140352-se5ivcskftfg1284a4g647a6b4pbfl7j.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context="edu.ucsb.cs.cs184.speedrun.speedrunapp.LeaderboardFragment"
+    tools:context="edu.ucsb.cs.cs184.speedrun.speedrunapp2.LeaderboardFragment"
     tools:layout_editor_absoluteY="81dp">
 
     <!-- TODO: Update blank fragment layout -->

@@ -6,7 +6,7 @@
     android:minHeight="240dp"
     android:minWidth="2400dp"
     android:orientation="vertical"
-    tools:context="edu.ucsb.cs.cs184.speedrun.speedrunapp.SplitFrag">
+    tools:context="edu.ucsb.cs.cs184.speedrun.speedrunapp2.SplitFrag">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

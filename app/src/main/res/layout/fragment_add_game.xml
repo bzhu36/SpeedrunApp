@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="edu.ucsb.cs.cs184.speedrun.speedrunapp.AddGameFrag">
+    tools:context="edu.ucsb.cs.cs184.speedrun.speedrunapp2.AddGameFrag">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
