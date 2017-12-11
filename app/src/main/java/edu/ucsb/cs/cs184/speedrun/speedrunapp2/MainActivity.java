@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.speedrun.speedrunapp2;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
@@ -12,6 +13,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.Window;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TimerFrag.OnFragmentInteractionListener {
@@ -69,9 +72,17 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.leaderboard) {
             fragment = new LeaderboardFragment();
         } else if (id == R.id.friends) {
-            fragment = new FriendsFragment();
+            //fragment = new FriendsFragment();
         } else if (id == R.id.profile) {
-            fragment = new ProfileFragment();
+            //fragment = new ProfileFragment();
+        }
+        else if (id == R.id.logout) {
+            FirebaseAuth.getInstance().signOut();
+            LoginActivity.mGoogleSignInClient.signOut();
+            Intent intent=new Intent(this, LoginActivity.class);
+            startActivity(intent);
+
+            //fragment = new ProfileFragment();
         }
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();

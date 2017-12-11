@@ -20,6 +20,10 @@
             android:id="@+id/timer"
             android:icon="@drawable/timer"
             android:title="Timer" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/signout"
+            android:title="Sign Out" />
     </group>
 
 

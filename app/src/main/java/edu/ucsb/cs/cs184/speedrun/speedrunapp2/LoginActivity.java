@@ -28,7 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private static final String TAG = "GoogleActivity";
     private FirebaseAuth mAuth;
-    private GoogleSignInClient mGoogleSignInClient;
+    public static GoogleSignInClient mGoogleSignInClient;
     private int RC_SIGN_IN=123;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

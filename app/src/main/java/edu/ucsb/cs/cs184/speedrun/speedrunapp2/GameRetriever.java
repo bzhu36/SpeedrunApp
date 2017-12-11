@@ -42,6 +42,8 @@ public class GameRetriever {
         void onHome(RunListGames runList);
     }
 
+
+
     private static class RetrieveGameListTask extends AsyncTask<Void, Void, GameList> {
         private GameListResultListener listener;
         private String gameName;
