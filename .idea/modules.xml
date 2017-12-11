@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/SpeedrunApp.iml" filepath="$PROJECT_DIR$/SpeedrunApp.iml" />
+      <module fileurl="file://C:\Users\unsun\Desktop\SpeedrunApp\SpeedrunApp.iml" filepath="C:\Users\unsun\Desktop\SpeedrunApp\SpeedrunApp.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
