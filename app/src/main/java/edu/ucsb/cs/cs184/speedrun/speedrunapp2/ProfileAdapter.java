@@ -55,7 +55,7 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.runListV
 
     @Override
     public void onBindViewHolder(runListViewHolder holder, int position) {
-        holder.gameTitle.setText(runs.get(position).getName());
+        holder.gameTitle.setText(runs.get(position).getGame());
         Picasso.with(context).load(runs.get(position).getIcon()).into(holder.gameCover);
         holder.time.setText(runs.get(position).getTime());
     }
