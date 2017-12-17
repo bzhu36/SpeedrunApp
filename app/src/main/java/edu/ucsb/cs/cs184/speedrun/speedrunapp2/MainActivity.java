@@ -76,6 +76,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.profile) {
             fragment = new ProfileFragment();
         }
+        else if (id == R.id.findFriends){
+            fragment = new FriendsSearchFragment();
+        }
+        else if( id == R.id.friendsList){
+            fragment = new FriendsListFragment();
+        }
         else if (id == R.id.logout) {
             FirebaseAuth.getInstance().signOut();
             LoginActivity.mGoogleSignInClient.signOut();

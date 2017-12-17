@@ -13,6 +13,14 @@
             android:icon="@drawable/friends"
             android:title="Friends" />
         <item
+            android:id="@+id/findFriends"
+            android:icon="@drawable/searchfriends"
+            android:title= "Search Friends"/>
+        <item
+            android:id="@+id/friendsList"
+            android:icon="@drawable/friendslist"
+            android:title= "Friends"/>
+        <item
             android:id="@+id/leaderboard"
             android:icon="@drawable/leaderboard"
             android:title="Leaderboard" />
