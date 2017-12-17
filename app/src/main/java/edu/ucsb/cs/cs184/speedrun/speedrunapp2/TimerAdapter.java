@@ -39,7 +39,7 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         View view;
         switch (viewType) {
             case GAME_TYPE:
-                view = inflater.inflate(R.layout.row, parent, false);
+                view = inflater.inflate(R.layout.timer_row, parent, false);
                 return new gameHolder(view);
             case ADD_TYPE:
                 view = inflater.inflate(R.layout.add_row, parent, false);
@@ -124,7 +124,7 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 //            popupFrag.setArguments(args);
 
             Fragment fragment = new SplitFrag();
-            FragmentTransaction ft = ((Activity) context).getFragmentManager().beginTransaction();
+            FragmentTransaction ft = manager.beginTransaction();
             ft.replace(R.id.content_main, fragment).commit();
             }
     }

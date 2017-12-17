@@ -16,6 +16,7 @@ import android.widget.EditText;
 import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.GameList;
 
 
+
 public class LeaderboardFragment extends Fragment {
     Handler customHandler = new Handler();
     EditText editText;
