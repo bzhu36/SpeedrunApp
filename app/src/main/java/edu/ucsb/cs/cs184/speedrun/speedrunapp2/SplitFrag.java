@@ -202,9 +202,9 @@ public class SplitFrag extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.split_edit) {
-            Fragment choiceFrag = new SplitEditFrag();
+//            Fragment choiceFrag = new SplitEditFrag();
             FragmentTransaction ft = manager.beginTransaction();
-            ft.replace(R.id.content_main, choiceFrag).addToBackStack(null).commit();
+//            ft.replace(R.id.content_main, choiceFrag).addToBackStack(null).commit();
 
             return true;
         }
@@ -220,8 +220,8 @@ public class SplitFrag extends Fragment {
         }
         if (id == R.id.split_help){
 
-            SplitHelpFrag helpFrag = new SplitHelpFrag();
-            helpFrag.show(manager, "HelpFrag");
+//            SplitHelpFrag helpFrag = new SplitHelpFrag();
+//            helpFrag.show(manager, "HelpFrag");
 
             return true;
         }

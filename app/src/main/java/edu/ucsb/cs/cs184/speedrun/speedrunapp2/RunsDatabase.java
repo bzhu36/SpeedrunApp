@@ -1,12 +1,14 @@
 package edu.ucsb.cs.cs184.speedrun.speedrunapp2;
 
+import android.support.annotation.NonNull;
+
 import java.util.ArrayList;
 
 /**
  * Created by unsun on 12/15/2017.
  */
 
-public class RunsDatabase {
+public class RunsDatabase implements Comparable<RunsDatabase>{
     private String game;
     private String name;
     private String userid;
@@ -93,5 +95,20 @@ public class RunsDatabase {
 
     public void setSplits(ArrayList<String> splits) {
         this.splits = splits;
+    }
+
+    @Override
+    public int compareTo(@NonNull RunsDatabase runsDatabase) {
+        int comparedTime = Integer.valueOf(removePunct(runsDatabase.getTime()));
+        int currentTime = Integer.valueOf(removePunct(this.getTime()));
+        return currentTime - comparedTime;
+    }
+
+    public String removePunct(String time){
+        final StringBuilder builder = new StringBuilder();
+        for(final char c : time.toCharArray())
+            if(Character.isLetterOrDigit(c))
+                builder.append(Character.isLowerCase(c) ? c : Character.toLowerCase(c));
+        return builder.toString();
     }
 }

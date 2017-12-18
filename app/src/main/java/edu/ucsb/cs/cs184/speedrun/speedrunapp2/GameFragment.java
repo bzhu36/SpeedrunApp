@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 
 import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.Category;
 import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.CategoryList;
@@ -230,6 +232,7 @@ public class GameFragment extends Fragment {
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                runs.clear();
                 for (DataSnapshot snap: dataSnapshot.getChildren()){
                     System.out.println(categorySpinner.getSelectedItem().toString());
                     if ((friendsList.contains(snap.getValue(RunsDatabase.class).getUserid()))
@@ -238,7 +241,7 @@ public class GameFragment extends Fragment {
                         runs.add(snap.getValue(RunsDatabase.class));
                     }
                 }
-
+                Collections.sort(runs);
                 localgameAdapter = new LocalGameAdapter(getContext(), runs);
                 recyclerView.setAdapter(localgameAdapter);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

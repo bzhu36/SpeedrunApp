@@ -27,7 +27,7 @@ public class AddGameFrag extends DialogFragment {
     private Button button;
     private String gameName;
     private RecyclerView recyclerView;
-    private AddGameAdapter adapter;
+//    private AddGameAdapter adapter;
 
     public AddGameFrag() {
         // Required empty public constructor
@@ -50,10 +50,10 @@ public class AddGameFrag extends DialogFragment {
                 GameRetriever.getGameList(gameName, new GameRetriever.GameListResultListener() {
                     @Override
                     public void onGameList(GameList gameList) {
-                        adapter = new AddGameAdapter(getContext(), gameList);
-                        recyclerView.setAdapter(adapter);
-                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-                        adapter.notifyDataSetChanged();
+//                        adapter = new AddGameAdapter(getContext(), gameList);
+//                        recyclerView.setAdapter(adapter);
+//                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//                        adapter.notifyDataSetChanged();
 
                     }
                 });
