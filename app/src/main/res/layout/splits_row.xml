@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/background"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <!--
+        <ImageView
+            android:id="@+id/imageAddSplits"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_weight="3"
+            android:layout_gravity="center_vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/addphoto"
+            />
+         -->
+        <EditText
+            android:id="@+id/nameAddSplits"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="15"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="center"
+            android:textColor="@color/textColor"
+            android:textColorHint="@color/textColor"
+            android:hint="Split Name"
+            android:ems="8"
+            android:inputType="textPersonName"
+            />
+        <TextView
+            android:id="@+id/timeCurrentAddSplits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:textColor="@color/textColor"
+            android:layout_gravity="center"
+            android:text=""/>
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/textColor"/>
+        <EditText
+            android:id="@+id/timeBestAddSplits"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:textColor="@color/textColor"
+            android:layout_gravity="center_vertical"
+            android:textColorHint="@color/textColor"
+            android:inputType="time"
+            android:hint="time"/>
+    </LinearLayout>
+
+
+</LinearLayout>
