@@ -83,50 +83,7 @@ public class FriendsListFragment extends Fragment {
 
             }
         });
-//        userDatabases = new ArrayList<>();
-//        Query query = db.orderByKey();
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                int i=0;
-//                if (dataSnapshot.exists()) {
-//                    for (DataSnapshot snap : dataSnapshot.getChildren()) {
-//                        int j=i;
-//                        String s=snap.getKey();
-//                        //Toast.makeText(getContext(), s, Toast.LENGTH_LONG).show();
-//                        keys.add(i, s);
-//                        DatabaseReference db2 = FirebaseDatabase.getInstance().getReference("users/"+s);
-//                        db2.addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(DataSnapshot dataSnapshot) {
-//                                userDatabases.add(j, dataSnapshot.getValue(UserDatabase.class));
-//                                //userDatabase1=dataSnapshot.getValue(UserDatabase.class);
-//                                //Toast.makeText(getContext(), userDatabases.get(j).getName(), Toast.LENGTH_LONG).show();
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(DatabaseError databaseError) {
-//
-//                            }
-//                        });
-//                    }
-//                    Toast.makeText(getContext(), "nu"+userDatabases.get(0).getName(), Toast.LENGTH_LONG).show();
-//                    recyclerView.setVisibility(View.VISIBLE);
-//                    adapter = new FriendsListAdapter(getContext(), userDatabases, keys);
-//                    recyclerView.setAdapter(adapter);
-//                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//                    adapter.notifyDataSetChanged();
-//                } else {
-//                    Toast.makeText(getContext(), "Not Following Anyone", Toast.LENGTH_LONG).show();
-//                    recyclerView.setVisibility(View.INVISIBLE);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+
 
 
 

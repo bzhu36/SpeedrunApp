@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, TimerFrag.OnFragmentInteractionListener {
 
     Fragment fragment = null;
+    static boolean local = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,9 +71,11 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.timer) {
             fragment = new TimerFrag();
         } else if (id == R.id.leaderboard) {
+            local = false;
             fragment = new LeaderboardFragment();
         } else if (id == R.id.friends) {
-            //fragment = new FriendsFragment();
+            local = true;
+            fragment = new LeaderboardFragment();
         } else if (id == R.id.profile) {
             fragment = new ProfileFragment();
         }
@@ -87,8 +90,6 @@ public class MainActivity extends AppCompatActivity
             LoginActivity.mGoogleSignInClient.signOut();
             Intent intent=new Intent(this, LoginActivity.class);
             startActivity(intent);
-
-            //fragment = new ProfileFragment();
         }
 
         FragmentTransaction ft = getFragmentManager().beginTransaction();

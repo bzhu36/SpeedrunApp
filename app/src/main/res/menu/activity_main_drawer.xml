@@ -9,9 +9,17 @@
             android:icon="@drawable/profile"
             android:title="Profile" />
         <item
+            android:id="@+id/timer"
+            android:icon="@drawable/timer"
+            android:title="Timer" />
+        <item
             android:id="@+id/friends"
-            android:icon="@drawable/friends"
-            android:title="Friends" />
+            android:icon="@drawable/leaderboard"
+            android:title="Local Leaderboard" />
+        <item
+            android:id="@+id/leaderboard"
+            android:icon="@drawable/global"
+            android:title="Global Leaderboard" />
         <item
             android:id="@+id/findFriends"
             android:icon="@drawable/searchfriends"
@@ -20,14 +28,6 @@
             android:id="@+id/friendsList"
             android:icon="@drawable/friendslist"
             android:title= "Friends"/>
-        <item
-            android:id="@+id/leaderboard"
-            android:icon="@drawable/leaderboard"
-            android:title="Leaderboard" />
-        <item
-            android:id="@+id/timer"
-            android:icon="@drawable/timer"
-            android:title="Timer" />
         <item
             android:id="@+id/logout"
             android:icon="@drawable/signout"

@@ -60,15 +60,6 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.gameLeaderboar
 
 
         holder.place.setText((position+1)+ ".");
-//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//        StrictMode.setThreadPolicy(policy);
-//        try {
-//            s=runs[position].getRun().getPlayers()[0].getName();
-//
-//        } catch (Exception e) {
-//            System.out.println("catch");
-//            e.printStackTrace();
-//        }
         holder.username.setText(usernames.get(position));
 
         //Parses the time into a readable format

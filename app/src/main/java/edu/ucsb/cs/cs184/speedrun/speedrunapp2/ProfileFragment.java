@@ -67,27 +67,9 @@ public class ProfileFragment extends Fragment {
         textView = view.findViewById(R.id.usernameText);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        DatabaseReference db = FirebaseDatabase.getInstance().getReference("users");
-        Query query = db.orderByChild("name").equalTo(user.getDisplayName());
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    for (DataSnapshot snap : dataSnapshot.getChildren()) {
-                        System.out.println(snap.getValue(UserDatabase.class).getName());
-                        userDatabase = snap.getValue(UserDatabase.class);
-                        textView.setText(userDatabase.getName());
-                    }
-                }
-            }
+        textView.setText(user.getDisplayName());
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                //Not used
-            }
-        });
-
-        db = FirebaseDatabase.getInstance().getReference("runs");
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("runs");
         Query query2 = db.orderByChild("userid").equalTo(user.getUid());
         query2.addValueEventListener(new ValueEventListener() {
             @Override
@@ -113,7 +95,6 @@ public class ProfileFragment extends Fragment {
         });
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) view.findViewById(R.id.collapse_toolbar);
-
 
         AppBarLayout appBarLayout = (AppBarLayout) view.findViewById(R.id.appbar);
         appBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
