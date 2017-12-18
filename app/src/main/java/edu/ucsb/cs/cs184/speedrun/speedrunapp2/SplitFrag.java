@@ -1,12 +1,19 @@
 package edu.ucsb.cs.cs184.speedrun.speedrunapp2;
 
 
+import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -17,7 +24,7 @@ import android.widget.TextView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SplitFrag extends android.app.Fragment {
+public class SplitFrag extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     Button start;
@@ -177,5 +184,51 @@ public class SplitFrag extends android.app.Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        inflater.inflate(R.menu.menu_split, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        FragmentManager manager = ((Activity) context).getFragmentManager();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.split_edit) {
+            Fragment choiceFrag = new SplitEditFrag();
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.replace(R.id.content_main, choiceFrag).addToBackStack(null).commit();
+
+            return true;
+        }
+        if (id == R.id.split_import) {
+            //TODO: add code to import splits config from game (going to need fragment)
+
+            return true;
+        }
+        if (id == R.id.split_delete) {
+            //TODO: add code to delete current splits config
+
+            return true;
+        }
+        if (id == R.id.split_help){
+
+            SplitHelpFrag helpFrag = new SplitHelpFrag();
+            helpFrag.show(manager, "HelpFrag");
+
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    public interface OnFragmentInteractionListener {
+        // TODO: Update argument type and name
+        void onFragmentInteraction(Uri uri);
     }
 }

@@ -16,8 +16,11 @@ import android.view.Window;
 
 import com.google.firebase.auth.FirebaseAuth;
 
+import edu.ucsb.cs.cs184.speedrun.speedrunapp2.SplitFrag;
+import edu.ucsb.cs.cs184.speedrun.speedrunapp2.TimerFrag;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, TimerFrag.OnFragmentInteractionListener {
+        implements NavigationView.OnNavigationItemSelectedListener, TimerFrag.OnFragmentInteractionListener, SplitFrag.OnFragmentInteractionListener {
 
     Fragment fragment = null;
     static boolean local = false;
@@ -39,9 +42,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        fragment = new HomepageFragment();
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.content_main, fragment).commit();
+//        fragment = new HomepageFragment();
+//        FragmentTransaction ft = getFragmentManager().beginTransaction();
+//        ft.replace(R.id.content_main, fragment).commit();
     }
 
     @Override
