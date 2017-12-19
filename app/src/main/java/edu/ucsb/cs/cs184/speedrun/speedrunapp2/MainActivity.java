@@ -89,16 +89,18 @@ public class MainActivity extends AppCompatActivity
             fragment = new FriendsListFragment();
         }
         else if (id == R.id.logout) {
+            fragment = null;
             FirebaseAuth.getInstance().signOut();
             LoginActivity.mGoogleSignInClient.signOut();
             Intent intent=new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
-        ft.replace(R.id.content_main, fragment).commit();
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+        if(fragment!=null) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            ft.replace(R.id.content_main, fragment).commit();
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+        }
         return true;
 
     }
