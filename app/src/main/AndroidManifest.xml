@@ -7,14 +7,14 @@
     <application
         android:allowBackup="true"
         android:screenOrientation="portrait"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:icon="@drawable/speedrunlogo"
+        android:label="Speedrun"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name="edu.ucsb.cs.cs184.speedrun.speedrunapp2.MainActivity"
-            android:label="@string/app_name"
+            android:label=""
             android:theme="@style/Theme.Collapse"
             android:configChanges="orientation"
             android:screenOrientation="portrait">
