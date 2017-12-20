@@ -26,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,7 @@ public class ProfileFragment extends Fragment {
     //UI Variables
     private Handler customerHandler = new Handler();
     private TextView textView;
+    private ImageView imageView;
     private RecyclerView recyclerView;
     private ImageView profPic;
     private ProfileAdapter adapter;
@@ -71,10 +73,12 @@ public class ProfileFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile, container, false);
 
-
+        imageView = view.findViewById(R.id.imageView3);
         recyclerView = view.findViewById(R.id.myRuns);
         runs = new ArrayList<>();
         textView = view.findViewById(R.id.usernameText);
+        Picasso.with(getContext()).load(R.mipmap.bioshock_infinite).resize(1920,1080).centerInside().onlyScaleDown().
+                into(imageView);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         textView.setText(username);
