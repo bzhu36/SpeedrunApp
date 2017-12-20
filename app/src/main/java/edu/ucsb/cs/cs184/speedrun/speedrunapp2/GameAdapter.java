@@ -27,7 +27,9 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.gameLeaderboar
     int runSize;
 
     public GameAdapter(Context context, LeaderboardPlayers leaderboard){
-        inflater = LayoutInflater.from(context);
+        if(context!=null) {
+            inflater = LayoutInflater.from(context);
+        }
         if(leaderboard!=null) {
             if (leaderboard.getLeaderboard() != null) {
                 runs = leaderboard.getLeaderboard().getRuns();

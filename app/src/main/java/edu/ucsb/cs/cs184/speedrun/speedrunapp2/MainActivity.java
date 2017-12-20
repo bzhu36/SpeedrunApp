@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import edu.ucsb.cs.cs184.speedrun.speedrunapp2.SplitFrag;
 import edu.ucsb.cs.cs184.speedrun.speedrunapp2.TimerFrag;
@@ -42,9 +43,9 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-//        fragment = new HomepageFragment();
-//        FragmentTransaction ft = getFragmentManager().beginTransaction();
-//        ft.replace(R.id.content_main, fragment).commit();
+        fragment = new HomepageFragment();
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        ft.replace(R.id.content_main, fragment).commit();
     }
 
     @Override
@@ -80,7 +81,8 @@ public class MainActivity extends AppCompatActivity
             local = true;
             fragment = new LeaderboardFragment();
         } else if (id == R.id.profile) {
-            fragment = new ProfileFragment();
+            fragment = ProfileFragment.newInstance(FirebaseAuth.getInstance().getUid(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+            //fragment = new ProfileFragment();
         }
         else if (id == R.id.findFriends){
             fragment = new FriendsSearchFragment();

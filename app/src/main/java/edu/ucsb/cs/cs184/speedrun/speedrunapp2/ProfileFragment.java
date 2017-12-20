@@ -38,6 +38,8 @@ public class ProfileFragment extends Fragment {
     private RecyclerView recyclerView;
     private ImageView profPic;
     private ProfileAdapter adapter;
+    private static String userID;
+    private static String username;
 
 
     //User Specific Variables
@@ -49,9 +51,14 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
-
-
-
+    }
+    public static ProfileFragment newInstance(String userID1, String username1) {
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        userID = userID1;
+        username = username1;
+        return fragment;
     }
 
 
@@ -67,10 +74,10 @@ public class ProfileFragment extends Fragment {
         textView = view.findViewById(R.id.usernameText);
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
-        textView.setText(user.getDisplayName());
+        textView.setText(username);
 
         DatabaseReference db = FirebaseDatabase.getInstance().getReference("runs");
-        Query query2 = db.orderByChild("userid").equalTo(user.getUid());
+        Query query2 = db.orderByChild("userid").equalTo(userID);
         query2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

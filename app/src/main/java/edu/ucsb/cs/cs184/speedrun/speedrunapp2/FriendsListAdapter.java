@@ -1,5 +1,6 @@
 package edu.ucsb.cs.cs184.speedrun.speedrunapp2;
 
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.LinearLayoutManager;
@@ -88,6 +89,14 @@ public class FriendsListAdapter extends RecyclerView.Adapter<FriendsListAdapter.
                     DatabaseReference ref = FirebaseDatabase.getInstance().getReference("friends/" + user.getUid() + "/" + keys.get(position));
                     ref.removeValue();
                 }
+            }
+        });
+        holder.username.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity mainActivity=(MainActivity)context;
+                FragmentTransaction ft = mainActivity.getFragmentManager().beginTransaction();
+                ft.replace(R.id.content_main, ProfileFragment.newInstance(keys.get(position), userDatabases.get(position).getName())).addToBackStack(null).commit();
             }
         });
 

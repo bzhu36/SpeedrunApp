@@ -48,6 +48,7 @@ public class GameFragment extends Fragment {
     private ProgressBar progressBar;
     static Drawable drawable;
     private GameAdapter gameAdapter;
+    private GameRetriever.RetrieveRunsTask retrieveRunsTask;
 
 
     //Firebase Variables
@@ -121,7 +122,7 @@ public class GameFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 if (MainActivity.local == false){
-                    GameRetriever.getRun(categories, i, progressBar, recyclerView, new GameRetriever.RunResultListener() {
+                    retrieveRunsTask=GameRetriever.getRun(categories, i, progressBar, recyclerView, new GameRetriever.RunResultListener() {
                         @Override
                         public void onRun(LeaderboardPlayers leaderboard) {
                             gameAdapter = new GameAdapter(getContext(), leaderboard);
@@ -254,6 +255,23 @@ public class GameFragment extends Fragment {
 
             }
         });
+
+    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        if(retrieveRunsTask!=null) {
+            retrieveRunsTask.cancel(true);
+        }
+        //}
+    }
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        if(retrieveRunsTask!=null) {
+            retrieveRunsTask.cancel(true);
+        }
+        // }
 
     }
 

@@ -33,7 +33,9 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.runVie
     Context context;
 
     public HomepageAdapter(Context context, RunListGames runList){
-        inflater = LayoutInflater.from(context);
+        if(context!=null) {
+            inflater = LayoutInflater.from(context);
+        }
         this.runListGames = runList;
         runs = runList.getRunList().getRuns();
         this.context=context;

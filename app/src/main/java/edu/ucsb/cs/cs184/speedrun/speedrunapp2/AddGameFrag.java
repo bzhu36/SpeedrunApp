@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 
 import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.GameList;
@@ -27,6 +28,7 @@ public class AddGameFrag extends DialogFragment {
     private Button button;
     private String gameName;
     private RecyclerView recyclerView;
+    private ProgressBar progressBar;
 //    private AddGameAdapter adapter;
 
     public AddGameFrag() {
@@ -41,13 +43,14 @@ public class AddGameFrag extends DialogFragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_game, container, false);
         editText = (EditText)view.findViewById(R.id.timer_searchBar);
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar4);
         button = (Button)view.findViewById(R.id.timer_searchButton);
         recyclerView = view.findViewById(R.id.timer_SearchRecyclerView);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 gameName = editText.getText().toString();
-                GameRetriever.getGameList(gameName, new GameRetriever.GameListResultListener() {
+                GameRetriever.getGameList(gameName, progressBar, new GameRetriever.GameListResultListener() {
                     @Override
                     public void onGameList(GameList gameList) {
 //                        adapter = new AddGameAdapter(getContext(), gameList);

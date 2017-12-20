@@ -2,6 +2,7 @@ package edu.ucsb.cs.cs184.speedrun.speedrunapp2;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,17 +13,20 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.GameList;
 
 
 
 public class LeaderboardFragment extends Fragment {
-    Handler customHandler = new Handler();
-    EditText editText;
-    Button button;
-    RecyclerView recyclerView;
-    String gameName;
+    private Handler customHandler = new Handler();
+    private EditText editText;
+    private ProgressBar progressBar;
+    private Button button;
+    private RecyclerView recyclerView;
+    private String gameName;
     private LeaderboardAdapter adapter;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,6 +34,7 @@ public class LeaderboardFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
         editText = (EditText)view.findViewById(R.id.searchBar);
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar5);
         button = (Button)view.findViewById(R.id.searchButton);
         gameName="mario";
         recyclerView = view.findViewById(R.id.recyclerView);
@@ -37,7 +42,7 @@ public class LeaderboardFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 gameName = editText.getText().toString();
-                GameRetriever.getGameList(gameName, new GameRetriever.GameListResultListener() {
+                GameRetriever.getGameList(gameName, progressBar, new GameRetriever.GameListResultListener() {
                     @Override
                     public void onGameList(GameList gameList) {
                         adapter = new LeaderboardAdapter(getContext(), gameList);

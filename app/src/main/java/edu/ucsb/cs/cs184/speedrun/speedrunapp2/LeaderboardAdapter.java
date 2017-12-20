@@ -46,7 +46,9 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     Context context;
 
     public LeaderboardAdapter(Context context, GameList gameLists){
-        inflater = LayoutInflater.from(context);
+        if(context!=null) {
+            inflater = LayoutInflater.from(context);
+        }
         games = gameLists.getGames();
         this.context=context;
 
@@ -118,7 +120,6 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
         public void onClick(View view) {
             MainActivity mainActivity=(MainActivity)context;
             FragmentTransaction ft = mainActivity.getFragmentManager().beginTransaction();
-            System.out.println(drawable);
             ft.replace(R.id.content_main, GameFragment.newInstance(games[position], drawable)).addToBackStack(null).commit();
         }
     }

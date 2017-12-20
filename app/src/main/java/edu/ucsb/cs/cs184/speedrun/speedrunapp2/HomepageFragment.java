@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -18,11 +19,12 @@ import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.run.RunList;
 
 public class HomepageFragment extends Fragment {
 
-    RecyclerView recyclerView;
+    private RecyclerView recyclerView;
     //String gameName;
-    HomepageAdapter adapter;
-    ProgressBar progressBar;
-    RunList runList;
+    private HomepageAdapter adapter;
+    private ProgressBar progressBar;
+    private GameRetriever.RetrieveHomeListTask retrieveHomeListTask;
+    private RunList runList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -32,7 +34,7 @@ public class HomepageFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar2);
         recyclerView = view.findViewById(R.id.recyclerView);
 
-        GameRetriever.getHome(progressBar,new GameRetriever.HomeListResultListener() {
+        retrieveHomeListTask=GameRetriever.getHome(progressBar,new GameRetriever.HomeListResultListener() {
             @Override
             public void onHome(RunListGames runList) {
                 adapter = new HomepageAdapter(getContext(), runList);
@@ -43,6 +45,39 @@ public class HomepageFragment extends Fragment {
         });
 
         return view;
+    }
+
+//    @Override
+//    public void onPause(){
+//        super.onPause();
+//        retrieveHomeListTask.cancel(true);
+//        // }
+//    }
+//    @Override
+//    public void onStop(){
+//        super.onStop();
+//        retrieveHomeListTask.cancel(true);
+//        // }
+//    }
+//
+//    @Override
+//    public void onDestroyView(){
+//        super.onDestroyView();
+//        retrieveHomeListTask.cancel(true);
+//        // }
+//    }
+    @Override
+    public void onDestroy(){
+        super.onDestroy();
+        retrieveHomeListTask.cancel(true);
+        //}
+    }
+    @Override
+    public void onDetach(){
+        super.onDetach();
+        retrieveHomeListTask.cancel(true);
+        // }
+
     }
 
 
