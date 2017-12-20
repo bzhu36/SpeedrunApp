@@ -19,7 +19,7 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapse_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="161dp"
+            android:layout_height="205dp"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -32,23 +32,25 @@
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Dark" />
 
             <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="131dp"
-                android:layout_height="161dp"
-                android:layout_gravity="top|left"
-                android:src="@drawable/link"
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier=".5"
-                app:layout_collapseMode="parallax"/>
+                app:srcCompat="@drawable/bioshockinfinite" />
+
+
 
             <TextView
                 android:id="@+id/usernameText"
+                android:textColor="@color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
+                android:layout_gravity="center_horizontal"
                 android:textSize="26sp"
-                android:paddingRight="30dp"
-                android:paddingTop="30dp"
+                android:paddingTop="150dp"
                 />
+
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 

@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -51,6 +52,7 @@ public class ProfileFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
     }
     public static ProfileFragment newInstance(String userID1, String username1) {
         ProfileFragment fragment = new ProfileFragment();
@@ -59,6 +61,7 @@ public class ProfileFragment extends Fragment {
         userID = userID1;
         username = username1;
         return fragment;
+
     }
 
 
@@ -82,6 +85,7 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()){
+                    runs.clear();
                     for (DataSnapshot snap: dataSnapshot.getChildren()){
                         System.out.println(snap.getValue(RunsDatabase.class).getName());
                         runs.add(snap.getValue(RunsDatabase.class));
@@ -114,17 +118,26 @@ public class ProfileFragment extends Fragment {
                     scrollRange = appBarLayout.getTotalScrollRange();
                 }
                 if (scrollRange + verticalOffset == 0) {
-                    collapsingToolbar.setTitle("My Runs");
+                    textView.setVisibility(View.INVISIBLE);
+                    collapsingToolbar.setTitle("My Runs     ");
                     collapsingToolbar.setCollapsedTitleGravity(Gravity.CENTER_HORIZONTAL);
                     isShow = true;
                 } else if(isShow) {
-                    collapsingToolbar.setTitle(" ");
+                    collapsingToolbar.setTitle("");
+                    textView.setVisibility(View.VISIBLE);
                     isShow = false;
                 }
             }
         });
 
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+
     }
 
 }
