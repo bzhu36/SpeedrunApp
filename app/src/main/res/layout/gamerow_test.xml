@@ -9,21 +9,21 @@
 
     <ImageView
         android:id="@+id/gameCover1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="111dp"
+        android:layout_height="135dp"
         android:layout_gravity="center"
         android:layout_marginBottom="5dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="2dp"
         android:layout_marginTop="32dp"
-        android:background="@color/background"
         android:cropToPadding="false"
+        android:src="@drawable/sunshine"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.038"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:layout_constraintTop_toBottomOf="@+id/view3"
         app:layout_constraintVertical_bias="0.45" />
 
     <TextView
@@ -31,10 +31,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:gravity="center"
         android:text="Super Mario Sunshine"
         android:textColor="@color/textColor"
         android:textSize="24dp"
@@ -45,13 +44,11 @@
         app:layout_constraintVertical_bias="0.654" />
 
     <View
-        android:id="@+id/view2"
-        android:layout_marginLeft="48dp"
-        android:layout_marginRight="48dp"
+        android:id="@+id/view3"
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/white" />
+        android:background="@color/white"
+        tools:layout_editor_absoluteY="20dp" />
 
 
 </android.support.constraint.ConstraintLayout>
-

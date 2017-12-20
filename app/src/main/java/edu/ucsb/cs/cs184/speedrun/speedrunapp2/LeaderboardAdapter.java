@@ -66,7 +66,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     @Override
     public void onBindViewHolder(gameViewHolder holder, int position) {
         holder.gameTitle.setText(games[position].getNames().get("international"));
-        Picasso.with(context).load(games[position].getAssets().getCoverLarge().getUri()).into(holder.gameCover,new com.squareup.picasso.Callback() {
+        Picasso.with(context).load(games[position].getAssets().getCoverMedium().getUri()).into(holder.gameCover,new com.squareup.picasso.Callback() {
             @Override
             public void onSuccess() {
                 holder.position = position;
