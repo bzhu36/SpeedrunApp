@@ -1,7 +1,9 @@
 package edu.ucsb.cs.cs184.speedrun.speedrunapp2;
 
+import android.app.FragmentTransaction;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.StrictMode;
 import android.support.v7.widget.RecyclerView;
@@ -82,25 +84,16 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.runVie
         holder.gameTitle.setText(runListGames.getGames().get(position).getNames().get("international"));
         String runTime = parseTime((String)runs[position].getTimes().getPrimary());
         holder.time.setText(runTime);
-        Picasso.with(context).load(runListGames.getGames().get(position).getAssets().getCoverMedium().getUri()).into(holder.gameCover);
-        holder.gameTitle.setOnClickListener(new View.OnClickListener() {
+        Picasso.with(context).load(runListGames.getGames().get(position).getAssets().getCoverMedium().getUri()).into(holder.gameCover,new com.squareup.picasso.Callback(){
             @Override
-            public void onClick(View view) {
-                if(runs[position].getVideos()!=null){
-                    if(runs[position].getVideos().getLinks()!=null) {
-                        String link = runs[position].getVideos().getLinks()[0].getUri();
-                        if(link.substring(4,11).equals("youtube")){
-                            link = link.substring(32);
-                            watchYoutubeVideo(link);
-                        }
-                        else{
-                            watchWebVideo(link);
-                        }
-                    }
-                }
-                else{
-                    Toast.makeText(context, "eoj", Toast.LENGTH_LONG).show();
-                }
+            public void onSuccess() {
+                holder.position = position;
+                holder.onClickListenerCall();
+            }
+
+            @Override
+            public void onError() {
+
             }
         });
 
@@ -130,12 +123,46 @@ public class HomepageAdapter extends RecyclerView.Adapter<HomepageAdapter.runVie
         ImageView gameCover;
         TextView gameTitle;
         TextView time;
+        int position;
 
         public runViewHolder(View itemView) {
             super(itemView);
             gameCover = itemView.findViewById(R.id.gameCover3);
             gameTitle = itemView.findViewById(R.id.gameTitle3);
             time = itemView.findViewById(R.id.time);
+        }
+        public void onClickListenerCall(){
+            itemView.setOnClickListener(new GameOnClickListener(position, gameTitle.getText().toString(), gameCover.getDrawable()));
+        }
+    }
+
+    class GameOnClickListener implements View.OnClickListener{
+
+        String gameTitle;
+        Drawable drawable;
+        int position;
+        GameOnClickListener(int position, String gameTitle, Drawable drawable){
+            this.gameTitle = gameTitle;
+            this.drawable = drawable;
+            this.position = position;
+        }
+        @Override
+        public void onClick(View view) {
+            if(runs[position].getVideos()!=null){
+                if(runs[position].getVideos().getLinks()!=null) {
+                    String link = runs[position].getVideos().getLinks()[0].getUri();
+                    if(link.substring(4,11).equals("youtube")){
+                        link = link.substring(32);
+                        watchYoutubeVideo(link);
+                    }
+                    else{
+                        watchWebVideo(link);
+                    }
+                }
+            }
+            else{
+                Toast.makeText(context, "eoj", Toast.LENGTH_LONG).show();
+            }
         }
     }
 
