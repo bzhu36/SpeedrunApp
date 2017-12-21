@@ -89,7 +89,7 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             gameCover = itemView.findViewById(R.id.gameCover);
             gameTitle = itemView.findViewById(R.id.gameTitle);
             worldRecord = itemView.findViewById(R.id.worldRecord);
-            GameOnClickListener listener = new GameOnClickListener(gameCover.getId(),gameTitle.getText().toString(),worldRecord.getText().toString());
+            GameOnClickListener listener = new GameOnClickListener(gameCover.getId(),gameTitle.getText().toString(),worldRecord.getText().toString(), getAdapterPosition());
             itemView.setOnClickListener(listener);
         }
 
@@ -110,10 +110,12 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         int gameCover;
         String gameTitle;
         String worldRecord;
-        GameOnClickListener(int gameCover, String gameTitle, String worldRecord){
+        int position;
+        GameOnClickListener(int gameCover, String gameTitle, String worldRecord, int position){
             this.gameCover = gameCover;
             this.gameTitle = gameTitle;
             this.worldRecord = worldRecord;
+            this.position = position;
 
         }
         @Override

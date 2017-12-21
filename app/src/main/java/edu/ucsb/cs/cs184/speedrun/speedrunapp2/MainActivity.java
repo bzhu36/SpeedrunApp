@@ -73,7 +73,8 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.timer) {
-            fragment = new TimerFrag();
+            //fragment = new TimerFrag();
+            fragment = new Timer2Fragment();
         } else if (id == R.id.leaderboard) {
             local = false;
             fragment = new LeaderboardFragment();

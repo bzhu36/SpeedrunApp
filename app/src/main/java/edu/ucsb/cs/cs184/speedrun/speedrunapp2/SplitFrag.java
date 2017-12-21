@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.os.SystemClock;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,8 +24,10 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,10 +40,20 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+
+import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.Category;
+import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.CategoryList;
+import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.Game;
 
 import static android.content.ContentValues.TAG;
 
@@ -50,8 +64,14 @@ import static android.content.ContentValues.TAG;
 public class SplitFrag extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    static int runNum=10;
+    Button submit;
+    Spinner category1;
+    TextView time1;
+    TextView gameName1;
     Button start;
     Button stop;
+    static Game game1;
     Button lap;
     Button reset;
     Boolean started;
@@ -125,11 +145,10 @@ public class SplitFrag extends Fragment {
         // Required empty public constructor
     }
 
-    public static SplitFrag newInstance(String param1, String param2) {
+    public static SplitFrag newInstance(Game game2) {
         SplitFrag fragment = new SplitFrag();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        game1 = game2;
         fragment.setArguments(args);
         return fragment;
     }
@@ -161,47 +180,93 @@ public class SplitFrag extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_split, container, false);
         started = false;
+        category1 = (Spinner) view.findViewById(R.id.categorySpin);
         start = (Button) view.findViewById(R.id.start);
         stop = (Button) view.findViewById(R.id.stop);
         lap = (Button) view.findViewById(R.id.lap);
         reset = (Button) view.findViewById(R.id.reset);
+        submit = (Button) view.findViewById(R.id.submit);
+        time1 = (TextView) view.findViewById(R.id.time2);
         timer = (TextView) view.findViewById(R.id.display);
         recyclerView = view.findViewById(R.id.recyclerViewSplit);
+        gameName1 = (TextView)view.findViewById(R.id.gameName2);
+        gameName1.setText(game1.getNames().get("international"));
         adapter = new SplitViewAdapter(getContext(), splits);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        CategoryList categoryList=null;
+        try {
+            categoryList = game1.getCategories();
+        } catch (Exception e) {
+            System.out.println("catch");
+            e.printStackTrace();
+        }
+
+        //Set the spinner's items to the catgories
+        ArrayAdapter<String> adapter1=new ArrayAdapter<String>(getActivity(), R.layout.support_simple_spinner_dropdown_item);
+        Category categories[]=categoryList.getCategories();
+        for (int i = 0; i< Array.getLength(categories); i++){
+            adapter1.add(categories[i].getName());
+        }
+        category1.setAdapter(adapter1);
+
         //splitLayout = view.findViewById(R.id.splitLayout);
-
-        start.setOnClickListener(new View.OnClickListener() {
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (!started) {
-                    started = true;
-                    currentSplit = 0;
-                    startTime = SystemClock.uptimeMillis();
-                    currentSplitTime = adapter.onTimerStart(startTime);
-                    customHandler.postDelayed(timerThread, 0);
-
-                }
-                else{
-                    completed[currentSplit] = true;
-                    currentSplit++;
-                    long newtime = adapter.onTimerSplit(updateTime, currentSplit);
-                    if(newtime != -1) {
-                        currentSplitTime = newtime;
-                    }
-                    boolean check = true;
-                    for (boolean item:completed) {
-                        if(item == false)
-                            check = false;
-                    }
-                    if(check == true){
-                        customHandler.removeCallbacks(timerThread);
-                        packageSplit();
-                    }
-                }
+            public void onClick(View view) {
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("runs/");
+                DatabaseReference pushedRef = ref.push();
+                String postId = pushedRef.getKey();
+                Map<String,Object> childUpdates = new HashMap<>();
+                childUpdates.put("game", game1.getNames().get("international"));
+                childUpdates.put("category", category1.getSelectedItem().toString());
+                childUpdates.put("Icon", game1.getAssets().getCoverMedium().getUri());
+                childUpdates.put("name", user.getDisplayName());
+                childUpdates.put("time", time1.getText().toString());
+                childUpdates.put("time", time1.getText().toString());
+                childUpdates.put("userid", user.getUid());
+                DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                String date = df.format(Calendar.getInstance().getTime());
+                childUpdates.put("date", date);
+                pushedRef.updateChildren(childUpdates);
+                DatabaseReference splitsListRef = pushedRef.child("splitsList");
+                Timer2Fragment fragment = new Timer2Fragment();
+                FragmentTransaction ft = getFragmentManager().beginTransaction();
+                ft.replace(R.id.content_main, fragment).commit();
             }
         });
+                start.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!started) {
+                            started = true;
+                            currentSplit = 0;
+                            startTime = SystemClock.uptimeMillis();
+                            currentSplitTime = adapter.onTimerStart(startTime);
+                            customHandler.postDelayed(timerThread, 0);
+
+                        } else {
+                            completed[currentSplit] = true;
+                            currentSplit++;
+                            long newtime = adapter.onTimerSplit(updateTime, currentSplit);
+                            if (newtime != -1) {
+                                currentSplitTime = newtime;
+                            }
+                            boolean check = true;
+                            for (boolean item : completed) {
+                                if (item == false)
+                                    check = false;
+                            }
+                            if (check == true) {
+                                customHandler.removeCallbacks(timerThread);
+                                packageSplit();
+                            }
+                        }
+                    }
+                });
 
 //        implementation for a stop ()
 //        stop.setOnClickListener(new View.OnClickListener() {
@@ -233,6 +298,7 @@ public class SplitFrag extends Fragment {
             public void onClick(View v) {
                 if (started) {
                     timeSwapBuff += timeInMillis;
+                    time1.setText(timer.getText());
 
                     customHandler.removeCallbacks(timerThread);
                     started = false;

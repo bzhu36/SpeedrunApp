@@ -35,7 +35,10 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.lang.reflect.Array;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -109,13 +112,18 @@ public class AddGameCategoryFrag extends DialogFragment {
                 Fragment fragment = new TimerFrag();
                 FragmentTransaction ft = manager.beginTransaction();
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("timer/" + user.getUid());
+                    DatabaseReference ref = FirebaseDatabase.getInstance().getReference("runs/" + user.getUid());
                     DatabaseReference pushedRef = ref.push();
                     String postId = pushedRef.getKey();
                     Map<String,Object> childUpdates = new HashMap<>();
                     childUpdates.put("game", gameTitle.getText().toString());
                     childUpdates.put("category", category);
-                    childUpdates.put("uri", game.getAssets().getCoverMedium().getUri());
+                    childUpdates.put("icon", game.getAssets().getCoverMedium().getUri());
+                    childUpdates.put("name", user.getDisplayName());
+                    childUpdates.put("time", "");
+                    DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+                    String date = df.format(Calendar.getInstance().getTime());
+                    childUpdates.put("date", date);
                     pushedRef.updateChildren(childUpdates);
                     DatabaseReference splitsListRef = pushedRef.child("splitsList");
 

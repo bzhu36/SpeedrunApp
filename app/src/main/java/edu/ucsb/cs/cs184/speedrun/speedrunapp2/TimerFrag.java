@@ -51,6 +51,7 @@ public class TimerFrag extends Fragment implements AddGameCategoryFrag.DialogCat
     Context context;
     Handler customHandler = new Handler();
     RecyclerView recyclerView;
+    List<GameInfo> data = new ArrayList<>();
 
     private TimerAdapter adapter;
     // TODO: Rename and change types of parameters
@@ -118,8 +119,8 @@ public class TimerFrag extends Fragment implements AddGameCategoryFrag.DialogCat
 //        });
 //
 //    }
+    /*
         public static List<GameInfo> dummyData(){
-        List<GameInfo> data = new ArrayList<>();
         int gameCover = (R.drawable.mario);
         String gameTitle = "Super Mario Sunshine";
         String worldRecord = "WR: 1:26:13 by WiseMuffin";
@@ -148,7 +149,7 @@ public class TimerFrag extends Fragment implements AddGameCategoryFrag.DialogCat
             data.add(new GameInfo(null, null, null, GameInfo.ADD_TYPE));
 
         return data;
-    }
+    }*/
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -166,11 +167,33 @@ public class TimerFrag extends Fragment implements AddGameCategoryFrag.DialogCat
         // Inflate the layout for this fragment
         View view  =  inflater.inflate(R.layout.fragment_timer, container, false);
         recyclerView = view.findViewById(R.id.recyclerView);
-        adapter = new TimerAdapter(getContext(), dummyData());
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference db = FirebaseDatabase.getInstance().getReference("runs");
+        Query query2 = db.orderByChild("userid").equalTo(user.getUid());
+        query2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                data.clear();
+                if (dataSnapshot.exists()){
+                    for (DataSnapshot snap: dataSnapshot.getChildren()){
+                        Timer temp = (snap.getValue(Timer.class));
+                        data.add(new GameInfo(temp.getUri(),temp.getName(), temp.getCategory(), GameInfo.GAME_TYPE));
+                    }
+                    data.add(new GameInfo(null, null, null, GameInfo.ADD_TYPE));
+                    adapter = new TimerAdapter(getContext(), data);
+                    recyclerView.setAdapter(adapter);
+                    recyclerView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                }
 
-        recyclerView.setAdapter(adapter);
-        recyclerView.setOverScrollMode(View.OVER_SCROLL_ALWAYS);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
+        });
         return view;
     }
 
