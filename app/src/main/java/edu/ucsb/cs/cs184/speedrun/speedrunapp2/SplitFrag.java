@@ -360,7 +360,7 @@ public class SplitFrag extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        inflater.inflate(R.menu.menu_split, menu);
+        //inflater.inflate(R.menu.menu_split, menu);
     }
 
     @Override
