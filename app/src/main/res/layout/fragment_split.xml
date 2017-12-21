@@ -3,8 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:minHeight="240dp"
-    android:minWidth="2400dp"
+    android:id="@+id/splitLayout"
+    android:clickable="true"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     android:orientation="vertical"
     tools:context="edu.ucsb.cs.cs184.speedrun.speedrunapp2.SplitFrag">
 
@@ -49,21 +51,14 @@
             android:layout_weight="1"
             android:text="Lap" />
     </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-            <ScrollView
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerViewSplit"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <LinearLayout
-                    android:id ="@+id/container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    >
-                </LinearLayout>
-            </ScrollView>
-        </LinearLayout>
+                android:layout_height="0dp"
+                android:layout_weight="1">
+
+            </android.support.v7.widget.RecyclerView>
+
     </LinearLayout>
 

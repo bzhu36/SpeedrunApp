@@ -21,7 +21,7 @@ public class SplitsAdd extends Splits {
         type.add(ADD_TYPE);
 
     }
-    SplitsAdd(int t, HashMap<Integer,Pair<String,String>> s){
+    SplitsAdd(int t, ArrayList<Pair<String,String>> s){
         for (int i = 0; i < s.size()-1; i++) {
             type.add(SPLIT_TYPE);
         }
@@ -34,11 +34,6 @@ public class SplitsAdd extends Splits {
         type.add(SPLIT_TYPE);
         type.add(ADD_TYPE);
         return type.size()-1;
-    }
-
-    @Override
-    public void addSplitToList(int position, Pair<String,String> p){
-        super.addSplitToList(position, p);
     }
 
 

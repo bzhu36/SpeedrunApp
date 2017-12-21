@@ -5,26 +5,18 @@ package edu.ucsb.cs.cs184.speedrun.speedrunapp2;
  */
 
 public class Timer {
-    private String gameName;
-    private String catagory;
-    private String imageURL;
-    private String WRInfo;
-    private String PBInfo;
+    private String name;
+    private String category;
+    private String uri;
 
-    public String getId() {
-        return gameName;
+    public String getName() {
+        return name;
     }
-    public String getCatagory() {
-        return catagory;
+    public String getCategory() {
+        return category;
     }
-    public String getImageURL() {
-        return imageURL;
-    }
-    public String getWRInfo() {
-        return WRInfo;
-    }
-    public String getPBInfo() {
-        return PBInfo;
+    public String getUri() {
+        return uri;
     }
 }
 

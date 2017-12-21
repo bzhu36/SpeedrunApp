@@ -17,8 +17,20 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.Game;
 
 
 /**
@@ -27,7 +39,7 @@ import java.util.List;
  * {@link TimerFrag.OnFragmentInteractionListener} interface
  * to handle interaction events.
  */
-public class TimerFrag extends Fragment {
+public class TimerFrag extends Fragment implements AddGameCategoryFrag.DialogCategoryListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,30 +51,15 @@ public class TimerFrag extends Fragment {
     Context context;
     Handler customHandler = new Handler();
     RecyclerView recyclerView;
-    long startTime=0L,timeInMillis=0L,timeSwapBuff=0L, updateTime=0L;
-    Runnable timerThread = new Runnable() {
-        @Override
-        public void run() {
-            timeInMillis = SystemClock.uptimeMillis()-startTime;
-            updateTime = timeSwapBuff+timeInMillis;
-            int secs = (int) updateTime/1000;
-            int mins = secs/60;
-            int hours = mins/60;
-            mins%=60;
-            secs%=60;
-            int millis = (int) updateTime%1000;
-            if(hours > 0)
-                timer.setText(""+hours+":"+String.format("%02d",mins)+":"+String.format("%02d",secs)+":"+String.format("%03d",millis));
-            else if(hours == 0)
-                timer.setText(""+mins+":"+String.format("%02d",secs)+":"+String.format("%03d",millis));
-            customHandler.postDelayed(this,0);
-        }
-    };
+
     private TimerAdapter adapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
     private OnFragmentInteractionListener mListener;
+    private String gameName;
+    private String category;
+    private Game game;
 
     public TimerFrag() {
         // Required empty public constructor
@@ -76,16 +73,79 @@ public class TimerFrag extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
-    public static List<GameInfo> dummyData(){
+//    private void setGamesLeaderboard(ArrayList<String> friends) {
+//        DatabaseReference db = FirebaseDatabase.getInstance().getReference("runs");
+//        Query query = db.orderByChild("game").equalTo(game.getNames().get("international"));
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (MainActivity.local == false){
+//                    GameRetriever.getRun(categories, i, null, recyclerView, new GameRetriever.RunResultListener() {
+//                        @Override
+//                        public void onRun(LeaderboardPlayers leaderboard) {
+//                            gameAdapter = new GameAdapter(getContext(), leaderboard);
+//                            recyclerView.setAdapter(gameAdapter);
+//                            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//                            gameAdapter.notifyDataSetChanged();
+//                        }
+//                    });
+//                }
+//                else {
+//                    runs.clear();
+//                    setAdapter();
+//                }
+//                runs.clear();
+//                for (DataSnapshot snap: dataSnapshot.getChildren()){
+//                    System.out.println(categorySpinner.getSelectedItem().toString());
+//                    if ((friendsList.contains(snap.getValue(RunsDatabase.class).getUserid()))
+//                            && (snap.getValue(RunsDatabase.class).getCategory().equals(categorySpinner.getSelectedItem().toString()))) {
+//                        System.out.println(snap.getValue(RunsDatabase.class).getCategory());
+//                        runs.add(snap.getValue(RunsDatabase.class));
+//                    }
+//                }
+//                Collections.sort(runs);
+//                localgameAdapter = new LocalGameAdapter(getContext(), runs);
+//                recyclerView.setAdapter(localgameAdapter);
+//                recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+//                localgameAdapter.notifyDataSetChanged();
+//                progressBar.setVisibility(View.INVISIBLE);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+//    }
+        public static List<GameInfo> dummyData(){
         List<GameInfo> data = new ArrayList<>();
         int gameCover = (R.drawable.mario);
         String gameTitle = "Super Mario Sunshine";
         String worldRecord = "WR: 1:26:13 by WiseMuffin";
-        for (int i = 0; i < 25; i++) {
-            data.add(new GameInfo(gameCover,gameTitle,worldRecord,GameInfo.GAME_TYPE));
-        }
-            data.add(new GameInfo(0, null, null, GameInfo.ADD_TYPE));
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            DatabaseReference db = FirebaseDatabase.getInstance().getReference("runs");
+            Query query2 = db.orderByChild("userid").equalTo(user.getUid());
+            query2.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()){
+                        for (DataSnapshot snap: dataSnapshot.getChildren()){
+                            Timer temp = (snap.getValue(Timer.class));
+                            data.add(new GameInfo(temp.getUri(),temp.getName(), temp.getCategory(), GameInfo.GAME_TYPE));
+
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+
+        });
+            data.add(new GameInfo(null, null, null, GameInfo.ADD_TYPE));
 
         return data;
     }
@@ -138,6 +198,12 @@ public class TimerFrag extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void gameCategoryListener(String game, String category) {
+        this.gameName = game;
+        this.category = category;
     }
 
     /**

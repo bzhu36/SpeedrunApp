@@ -21,7 +21,7 @@ import edu.ucsb.cs.cs184.speedrun.speedrunapp2.game.GameList;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddGameFrag extends DialogFragment {
+public class AddGameFrag extends DialogFragment{
 
 
     private EditText editText;
@@ -30,7 +30,7 @@ public class AddGameFrag extends DialogFragment {
     private RecyclerView recyclerView;
     private ProgressBar progressBar;
 //    private AddGameAdapter adapter;
-
+    private AddGameAdapter adapter;
     public AddGameFrag() {
         // Required empty public constructor
     }
@@ -53,10 +53,10 @@ public class AddGameFrag extends DialogFragment {
                 GameRetriever.getGameList(gameName, progressBar, new GameRetriever.GameListResultListener() {
                     @Override
                     public void onGameList(GameList gameList) {
-//                        adapter = new AddGameAdapter(getContext(), gameList);
-//                        recyclerView.setAdapter(adapter);
-//                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//                        adapter.notifyDataSetChanged();
+                        adapter = new AddGameAdapter(getContext(), gameList);
+                        recyclerView.setAdapter(adapter);
+                        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+                        adapter.notifyDataSetChanged();
 
                     }
                 });
@@ -72,6 +72,7 @@ public class AddGameFrag extends DialogFragment {
         return view;
 
     }
+
 
 }
 

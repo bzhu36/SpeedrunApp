@@ -10,14 +10,14 @@ public class GameInfo {
     public static final int GAME_TYPE = 0;
     public static final int ADD_TYPE = 1;
 
-    int iconId;
+    String uri;
     String gameTitle;
-    String worldRecord;
+    String category;
     int type;
-    GameInfo(@Nullable int i,@Nullable String g,@Nullable String w, int t){
-        this.iconId = i;
+    GameInfo(@Nullable String i,@Nullable String g,@Nullable String w, int t){
+        this.uri = i;
         this.gameTitle = g;
-        this.worldRecord = w;
+        this.category = w;
         this.type = t;
     }
 }

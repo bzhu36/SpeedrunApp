@@ -23,48 +23,48 @@
             app:srcCompat="@drawable/addphoto"
             />
          -->
-        <EditText
-            android:id="@+id/nameAddSplits"
+        <TextView
+            android:id="@+id/nameSplitView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="15"
+            android:layout_gravity="center"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:layout_gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_weight="15"
+            android:textSize="20sp"
             android:textColor="@color/textColor"
-            android:textColorHint="@color/textColor"
-            android:hint="Split Name"
-            android:ems="8"
-            android:inputType="textPersonName"
-            />
+            android:textColorHint="@color/textColor" />
+
         <TextView
-            android:id="@+id/timeCurrentAddSplits"
+            android:id="@+id/timeCurrentSplitView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
-            android:textColor="@color/textColor"
-            android:layout_gravity="center"
-            android:text=""/>
+            android:text=""
+            android:textSize="20sp"
+            android:textColor="@color/textColor" />
+
         <View
             android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/textColor"/>
-        <EditText
-            android:id="@+id/timeBestAddSplits"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/textColor" />
+
+        <TextView
+            android:id="@+id/timeBestSplitView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:textColor="@color/textColor"
-            android:layout_gravity="center_vertical"
-            android:textColorHint="@color/textColor"
-            android:inputType="time"
-            android:hint="time"/>
+            android:text=""
+            android:textSize="20sp"/>
     </LinearLayout>
 
 

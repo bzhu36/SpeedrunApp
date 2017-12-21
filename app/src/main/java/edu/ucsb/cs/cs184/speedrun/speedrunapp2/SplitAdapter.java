@@ -11,10 +11,6 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.Collections;
-import java.util.List;
 
 import static edu.ucsb.cs.cs184.speedrun.speedrunapp2.SplitsAdd.ADD_TYPE;
 import static edu.ucsb.cs.cs184.speedrun.speedrunapp2.SplitsAdd.SPLIT_TYPE;
@@ -64,8 +60,8 @@ class SplitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     EditText splitName;
     TextView currentTime;
     EditText bestTime;
-
-        public splitHolder(View itemView) {
+    long parsedTime;
+    public splitHolder(View itemView) {
             super(itemView);
             //splitImage = itemView.findViewById(R.id.imageAddSplits);
             splitName = itemView.findViewById(R.id.nameAddSplits);
@@ -106,8 +102,8 @@ class SplitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
                 }
             });
-            ImageOnClickListener listener = new ImageOnClickListener();
-            splitImage.setOnClickListener(listener);
+            //ImageOnClickListener listener = new ImageOnClickListener();
+            //splitImage.setOnClickListener(listener);
         }
     }
 
@@ -126,12 +122,13 @@ class SplitAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
             //code to upload image
         }
     }
-    class AddOnClickListener implements View.OnClickListener{
+     class AddOnClickListener implements View.OnClickListener{
 
         @Override
         public void onClick(View v) {
             int newpos = splitsAdd.addSplitToEditList();
-            splitsAdd.addSplitToList(newpos, Pair.create("",""));
+            System.out.println(splitsAdd.toString() + " " + splitsAdd.type.toString());
+            splitsAdd.addSplitToList(newpos-1, Pair.create("",""));
             SplitAdapter.this.notifyItemInserted(splitsAdd.size()-1);
         }
     }

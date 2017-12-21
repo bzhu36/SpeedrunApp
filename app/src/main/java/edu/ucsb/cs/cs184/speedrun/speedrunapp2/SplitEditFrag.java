@@ -4,11 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.provider.ContactsContract;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 /**
@@ -23,6 +33,9 @@ public class SplitEditFrag extends Fragment {
     RecyclerView recyclerView;
     Context context;
     SplitAdapter adapter;
+    SplitsAdd splitsAdd;
+    String game;
+    String category;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -72,7 +85,7 @@ public class SplitEditFrag extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_split_edit, container, false);
         recyclerView = view.findViewById(R.id.splitRecyclerView);
-        SplitsAdd splitsAdd = new SplitsAdd();
+        splitsAdd = new SplitsAdd();
         adapter = new SplitAdapter(getContext(), splitsAdd);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -99,6 +112,28 @@ public class SplitEditFrag extends Fragment {
 
     @Override
     public void onDetach() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if( splitsAdd != null){
+            DatabaseReference ref = FirebaseDatabase.getInstance().getReference("splits/" + user.getUid());
+            DatabaseReference pushedRef = ref.push();
+            String postId = pushedRef.getKey();
+            Map<String,Object> childUpdates = new HashMap<>();
+            game = "";
+            category = "";
+            childUpdates.put("game",game);
+            childUpdates.put("category", category);
+            pushedRef.updateChildren(childUpdates);
+            DatabaseReference splitsListRef = pushedRef.child("splitsList");
+            for (int i = 0; i < splitsAdd.size()-1; i++) {
+                DatabaseReference splitRef = splitsListRef.child(new Integer(i).toString());
+                childUpdates.clear();
+                childUpdates.put("splitName", splitsAdd.getPair(0,i));
+                childUpdates.put("time", splitsAdd.getPair(1,i));
+                splitRef.updateChildren(childUpdates);
+
+            }
+
+        }
         super.onDetach();
         mListener = null;
     }
@@ -113,6 +148,7 @@ public class SplitEditFrag extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

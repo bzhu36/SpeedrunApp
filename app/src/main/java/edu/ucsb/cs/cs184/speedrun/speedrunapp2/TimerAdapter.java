@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.Collections;
 import java.util.List;
 
@@ -54,9 +56,9 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         GameInfo current = gameInfos.get(position);
         switch (getItemViewType(position)) {
             case GAME_TYPE:
-                ((gameHolder) holder).gameCover.setImageResource(current.iconId);
+                Picasso.with(context).load(current.uri).into(((gameHolder)holder).gameCover);
                 ((gameHolder) holder).gameTitle.setText(current.gameTitle);
-                ((gameHolder) holder).worldRecord.setText(current.worldRecord);
+                ((gameHolder) holder).worldRecord.setText(current.category);
 
                 break;
             case ADD_TYPE:
@@ -139,6 +141,8 @@ public class TimerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         public void onClick(View v){
             FragmentManager manager = ((Activity) context).getFragmentManager();
             AddGameFrag popupFrag = new AddGameFrag();
+            FragmentTransaction ft = manager.beginTransaction();
+            ft.addToBackStack("SplitFrag");
 //            Bundle args = new Bundle();
 //            args.putString("Uri",uri);
 //            args.putInt("Rating", rating);

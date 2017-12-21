@@ -1,6 +1,7 @@
 package edu.ucsb.cs.cs184.speedrun.speedrunapp2;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,6 +28,8 @@ public class ProfileAdapter extends RecyclerView.Adapter<ProfileAdapter.runListV
     private FirebaseUser user;
     ArrayList<RunsDatabase> runs;
     Context context;
+    public static Bundle myBundle = new Bundle();
+
 
     public ProfileAdapter(Context context,ArrayList<RunsDatabase> runs){
         if (context != null){

@@ -10,15 +10,38 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.constraint.ConstraintLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.GenericTypeIndicator;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -35,6 +58,21 @@ public class SplitFrag extends Fragment {
     TextView timer;
     Context context;
     LinearLayout container;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
+    List<Pair<String,String>> value;
+    String category;
+    String game;
+    ConstraintLayout splitLayout;
+    RecyclerView recyclerView;
+    SplitViewAdapter adapter;
+    long currentSplitTime;
+    int currentSplit;
+    boolean[] completed;
+    static final int GOLD = 0;
+    static final int GREEN = 1;
+    static final int RED = 2;
+
     Handler customHandler = new Handler();
     long startTime=0L,timeInMillis=0L,timeSwapBuff=0L, updateTime=0L;
     Runnable timerThread = new Runnable() {
@@ -49,9 +87,34 @@ public class SplitFrag extends Fragment {
             secs%=60;
             int millis = (int) updateTime%1000;
             if(hours > 0)
-                timer.setText(""+hours+":"+String.format("%02d",mins)+":"+String.format("%02d",secs)+":"+String.format("%03d",millis));
+                timer.setText(""+hours+":"+String.format("%02d",mins)+":"+String.format("%02d",secs)+"."+String.format("%03d",millis));
             else if(hours == 0)
-                timer.setText(""+mins+":"+String.format("%02d",secs)+":"+String.format("%03d",millis));
+                timer.setText(""+mins+":"+String.format("%02d",secs)+"."+String.format("%03d",millis));
+            double timeDiff = 2*updateTime/currentSplitTime;
+            Log.d(TAG, "updateTime: "+updateTime);
+            Log.d(TAG, "currentSplitTime: "+currentSplitTime);
+            Log.d(TAG, "timeDiff: "+timeDiff);
+            int splitSecs = (int) Math.abs((currentSplitTime-updateTime)/1000);
+            long splitMins = Math.abs(splitSecs/60);
+            splitSecs%=60;
+            splitMins%=60;
+            long splitMillis = (long) Math.abs((currentSplitTime-updateTime)%1000);
+            if(timeDiff < 0.75){
+                adapter.updateLive("", currentSplit, GOLD);
+
+            }
+            if(timeDiff >= 0.85 && timeDiff < 0.95){
+                String splitTime = "+"+splitMins+":"+String.format("%02d",splitSecs)+"."+String.format("%03d",splitMillis);
+                adapter.updateLive(splitTime, currentSplit, GOLD);
+            }
+            else if(timeDiff >= 0.95 && timeDiff <= 1.0){
+                String splitTime = "+"+splitMins+":"+String.format("%02d",splitSecs)+"."+String.format("%03d",splitMillis);
+                adapter.updateLive(splitTime, currentSplit, GREEN);
+            }
+            else if(timeDiff > 1.0){
+                String splitTime = "-"+splitMins+":"+String.format("%02d",splitSecs)+"."+String.format("%03d",splitMillis);
+                adapter.updateLive(splitTime, currentSplit, RED);
+            }
             customHandler.postDelayed(this,0);
         }
     };
@@ -84,6 +147,17 @@ public class SplitFrag extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //game = game;
+        //category = category;
+        //splitID = sID;
+        //splits = splits; (List<Pair<String,String>>)
+        List<Pair<String,String>> splits = new ArrayList<>();
+        splits.add(Pair.create("1-1","0:10.12"));
+        splits.add(Pair.create("1-2","0:20.344"));
+        splits.add(Pair.create("1-3","1:03:00.001"));
+
+        completed = new boolean[splits.size()];
+
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_split, container, false);
         started = false;
@@ -92,16 +166,39 @@ public class SplitFrag extends Fragment {
         lap = (Button) view.findViewById(R.id.lap);
         reset = (Button) view.findViewById(R.id.reset);
         timer = (TextView) view.findViewById(R.id.display);
-        this.container = (LinearLayout) view.findViewById(R.id.container);
+        recyclerView = view.findViewById(R.id.recyclerViewSplit);
+        adapter = new SplitViewAdapter(getContext(), splits);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        //splitLayout = view.findViewById(R.id.splitLayout);
+
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (!started) {
                     started = true;
+                    currentSplit = 0;
                     startTime = SystemClock.uptimeMillis();
-
+                    currentSplitTime = adapter.onTimerStart(startTime);
                     customHandler.postDelayed(timerThread, 0);
 
+                }
+                else{
+                    completed[currentSplit] = true;
+                    currentSplit++;
+                    long newtime = adapter.onTimerSplit(updateTime, currentSplit);
+                    if(newtime != -1) {
+                        currentSplitTime = newtime;
+                    }
+                    boolean check = true;
+                    for (boolean item:completed) {
+                        if(item == false)
+                            check = false;
+                    }
+                    if(check == true){
+                        customHandler.removeCallbacks(timerThread);
+                        packageSplit();
+                    }
                 }
             }
         });
@@ -168,6 +265,14 @@ public class SplitFrag extends Fragment {
         return view;
     }
 
+    private void packageSplit() {
+        List<Pair<String,String>> splits = adapter.getSplits();
+
+    }
+
+    private void submitRun(){
+
+    }
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -202,9 +307,9 @@ public class SplitFrag extends Fragment {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.split_edit) {
-//            Fragment choiceFrag = new SplitEditFrag();
+            Fragment choiceFrag = new SplitEditFrag();
             FragmentTransaction ft = manager.beginTransaction();
-//            ft.replace(R.id.content_main, choiceFrag).addToBackStack(null).commit();
+            ft.replace(R.id.content_main, choiceFrag).addToBackStack(null).commit();
 
             return true;
         }
@@ -220,8 +325,8 @@ public class SplitFrag extends Fragment {
         }
         if (id == R.id.split_help){
 
-//            SplitHelpFrag helpFrag = new SplitHelpFrag();
-//            helpFrag.show(manager, "HelpFrag");
+            SplitHelpFrag helpFrag = new SplitHelpFrag();
+            helpFrag.show(manager, "HelpFrag");
 
             return true;
         }

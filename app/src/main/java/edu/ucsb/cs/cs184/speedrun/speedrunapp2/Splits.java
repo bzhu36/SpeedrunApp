@@ -2,6 +2,7 @@ package edu.ucsb.cs.cs184.speedrun.speedrunapp2;
 
 import android.util.Pair;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,19 +11,23 @@ import java.util.Map;
  */
 
 public class Splits {
-    private HashMap<Integer, Pair<String,String> > splitList;
+    private ArrayList<Pair<String,String>> splitList;
     Splits(){
-        this.splitList = new HashMap<>();
+        this.splitList = new ArrayList<>();
     }
-    public void setSplitList(HashMap<Integer,Pair<String,String>> s){
+    public void setSplitList(ArrayList<Pair<String,String>> s){
         this.splitList = s;
     }
-    public HashMap getSplitList(){
-        return this.splitList;
+    public ArrayList<Pair<String,String>> getSplitList(){
+        return splitList;
     }
 
-    public void addSplitToList(int position, Pair<String,String> p){
-        this.splitList.put(position,p);
+    public void addSplitToList(int position, Pair<String,String> p) {
+        try{
+            this.splitList.set(position, p);
+        } catch(IndexOutOfBoundsException e){
+            this.splitList.add(p);
+        }
     }
 
     public String getPair(int which, int position){
@@ -41,7 +46,7 @@ public class Splits {
     @Override
     public String toString(){
         StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < splitList.size()-1; i++) {
+        for (int i = 0; i < splitList.size(); i++) {
             stringBuilder.append("" + splitList.get(i).first + " " + splitList.get(i).second + "\n");
         }
         return stringBuilder.toString();
