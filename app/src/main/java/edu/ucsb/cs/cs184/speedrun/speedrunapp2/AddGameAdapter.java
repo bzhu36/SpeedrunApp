@@ -46,7 +46,9 @@ public class AddGameAdapter extends RecyclerView.Adapter<AddGameAdapter.gameView
     Context context;
 
     public AddGameAdapter(Context context, GameList gameLists){
-        inflater = LayoutInflater.from(context);
+        if(context!=null) {
+            inflater = LayoutInflater.from(context);
+        }
         games = gameLists.getGames();
         this.context=context;
 

@@ -39,7 +39,9 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.friendsV
 
     public FriendsAdapter(Context context, UserDatabase userDatabase, String key){
 
-        inflater = LayoutInflater.from(context);
+        if(context!=null) {
+            inflater = LayoutInflater.from(context);
+        }
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         if(userDatabase==null){

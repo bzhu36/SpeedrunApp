@@ -22,7 +22,9 @@ public class LocalGameAdapter extends RecyclerView.Adapter<LocalGameAdapter.game
     int runSize;
 
     public LocalGameAdapter(Context context, ArrayList<RunsDatabase> gameLeaderboard){
-        inflater = LayoutInflater.from(context);
+        if(context!=null) {
+            inflater = LayoutInflater.from(context);
+        }
         this.context = context;
         this.runs = gameLeaderboard;
         if(runs== null){
